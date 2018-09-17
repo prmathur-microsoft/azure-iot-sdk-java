@@ -154,7 +154,7 @@ public class ModuleGlue
             try
             {
                 MethodResult result = client.invokeMethod(deviceId, request);
-                handler.handle(Future.succeededFuture(result));
+                handler.handle(Future.succeededFuture(makeMethodResultThatEncodesCorrectly(result)));
             }
             catch (ModuleClientException e)
             {
@@ -551,6 +551,18 @@ public class ModuleGlue
         }
     }
 
+    private JsonObject makeMethodResultThatEncodesCorrectly(MethodResult result)
+    {
+        // Our JSON encoder doesn't like the way the MethodClass implements getPayload and getPayloadObject.  It
+        // produces JSON that had both fields and the we want to return payloadObject, but we want to return it
+        // in the field called "payload".  The easiest workaroudn is to make an empty JsonObject and copy the
+        // values over manually.  I'm sure there's a better way, but this is test code.
+        JsonObject fixedObject = new JsonObject();
+        fixedObject.put("status", result.getStatus());
+        fixedObject.put("payload", result.getPayloadObject());
+        return fixedObject;
+    }
+
 
     public void invokeModuleMethod(String connectionId, String deviceId, String moduleId, Object methodInvokeParameters, Handler<AsyncResult<Object>> handler)
     {
@@ -570,7 +582,7 @@ public class ModuleGlue
             try
             {
                 MethodResult result = client.invokeMethod(deviceId, moduleId, request);
-                handler.handle(Future.succeededFuture(result));
+                handler.handle(Future.succeededFuture(makeMethodResultThatEncodesCorrectly(result)));
             }
             catch (ModuleClientException e)
             {
