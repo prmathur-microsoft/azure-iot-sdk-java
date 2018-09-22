@@ -169,9 +169,11 @@ public class ModuleGlue
         ModuleClient client = getClient(connectionId);
         if (client != null)
         {
+            this._deviceTwinPropertyCallback.setHandler(null);
+            this._deviceTwinStatusCallback.setHandler(null);
             try
             {
-                client.close();
+                client.closeNow();
             }
             catch (IOException e)
             {
@@ -234,7 +236,11 @@ public class ModuleGlue
                             " property " + property.getKey() +
                             " to " + property.getValue() +
                             ", Properties version:" + property.getVersion());
-            if (this._props != null)
+            if (this._props == null)
+            {
+                System.out.println("nobody is listening for desired properties.  ignoring.");
+            }
+            else
             {
                 if (property.getIsReported())
                 {
@@ -252,6 +258,10 @@ public class ModuleGlue
 
         private void rescheduleHandler()
         {
+            if (_handler == null)
+            {
+                return;
+            }
             // call _handler 2 seconds after the last designed property change
             if (this._timer != null)
             {
@@ -267,7 +277,7 @@ public class ModuleGlue
                     _timer = null;
                     if (_handler != null && _props != null)
                     {
-                        System.out.println("calling handler");
+                        System.out.println("It's been 2 seconds since last desired property arrived.  Calling handler");
                         JsonObject twin = new JsonObject()
                         {
                             {
@@ -276,6 +286,7 @@ public class ModuleGlue
                         };
                         System.out.println(twin.toString());
                         _handler.handle(Future.succeededFuture(twin));
+                        _handler = null;
                     }
                 }
             }, 2000);
@@ -316,9 +327,9 @@ public class ModuleGlue
     private IotHubEventCallbackImpl _deviceTwinStatusCallback = new IotHubEventCallbackImpl();
 
 
-    public void enableTwin(String connectionId, Handler<AsyncResult<Void>> handler)
+    public void enableTwin(String connectionId, final Handler<AsyncResult<Void>> handler)
     {
-        ModuleClient client = getClient(connectionId);
+        final ModuleClient client = getClient(connectionId);
         if (client == null)
         {
             handler.handle(Future.failedFuture(new MainApiException(500, "invalid connection id")));
@@ -327,9 +338,9 @@ public class ModuleGlue
         {
             try
             {
+                // After we start the twin, we want to subscribe to twin properties.  This lambda will do that for us.
                 this._deviceTwinStatusCallback.setHandler(res -> {
                     System.out.printf("startTwin completed - failed = %s%n", (res.failed() ? "true" : "false"));
-
                     if (res.failed())
                     {
                         handler.handle(res);
@@ -348,7 +359,7 @@ public class ModuleGlue
                         }
                         handler.handle(Future.succeededFuture());
                     }
-
+                    this._deviceTwinStatusCallback.setHandler(null);
                 });
                 System.out.println("calling startTwin");
                 client.startTwin(this._deviceTwinStatusCallback, null, this._deviceTwinPropertyCallback, null);

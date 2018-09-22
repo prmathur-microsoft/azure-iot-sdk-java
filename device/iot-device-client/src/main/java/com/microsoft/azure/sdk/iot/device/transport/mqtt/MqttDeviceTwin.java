@@ -75,7 +75,7 @@ public class MqttDeviceTwin extends Mqtt
 
         if (!requestMap.isEmpty())
         {
-            logger.LogInfo("Pending %d responses from IotHub yet unsubscribed %s", requestMap.size(), logger.getMethodName());
+            logger.LogInfo("Pending %d re sponses from IotHub yet unsubscribed %s", requestMap.size(), logger.getMethodName());
         }
     }
 
@@ -196,6 +196,11 @@ public class MqttDeviceTwin extends Mqtt
 
         String publishTopic = buildTopic(message);
         requestMap.put(message.getRequestId(), message.getDeviceOperationType());
+
+		if (message.getRequestId() == null)
+			{
+			System.out.println("here");
+			}
 
         //Codes_SRS_MqttMessaging_25_024: [send method shall publish a message to the IOT Hub on the publish topic by calling method publish().]
         if (message.getDeviceOperationType() == DeviceOperations.DEVICE_OPERATION_TWIN_SUBSCRIBE_DESIRED_PROPERTIES_REQUEST)
