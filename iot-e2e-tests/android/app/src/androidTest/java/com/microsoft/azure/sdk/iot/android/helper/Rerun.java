@@ -28,7 +28,7 @@ public class Rerun implements TestRule {
                         return;
                     } catch (Throwable t) {
                         lastThrowable = t;
-                        System.err.println(description.getDisplayName() + ": Failed run " + (i+1));
+                        System.err.println(description.getDisplayName() + ": ********** Failed run " + (i+1));
                     }
                 }
                 System.err.println(description.getDisplayName() + ": Test failed after " + count + " failures");
