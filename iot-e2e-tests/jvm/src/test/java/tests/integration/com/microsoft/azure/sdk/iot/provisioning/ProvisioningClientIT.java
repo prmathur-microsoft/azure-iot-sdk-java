@@ -206,7 +206,7 @@ public class ProvisioningClientIT
 
             Thread.sleep(2000);
 
-            if (System.currentTimeMillis() - startTime > MAX_TIME_TO_WAIT_FOR_REGISTRATION)
+            if (System.currentTimeMillis() - startTime > 10000)
             {
                 fail("Timed out waiting for registration to succeed");
             }
