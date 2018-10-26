@@ -334,7 +334,6 @@ public class ProvisioningClientIT
     }
 
     // disable this test due to stability issue off TPM simulator on linux.
-    @Ignore
     @Test (timeout = OVERALL_TEST_TIMEOUT)
     public void individualEnrollmentTPMSimulator() throws Exception
     {
@@ -423,6 +422,7 @@ public class ProvisioningClientIT
         System.out.println("Running TPM registration over " + testInstance.protocol + " succeeded");
     }
 
+    @Ignore
     @Test (timeout = OVERALL_TEST_TIMEOUT)
     public void individualEnrollmentX509() throws Exception
     {
@@ -491,6 +491,7 @@ public class ProvisioningClientIT
 
     }
 
+    @Ignore
     @Test (timeout = OVERALL_TEST_TIMEOUT)
     public void individualEnrollmentWithInvalidRemoteServerCertificateFails() throws Exception
     {
