@@ -99,11 +99,7 @@ public class ProvisioningClientIT
         return Arrays.asList(
                 new Object[][]
                 {
-                    {HTTPS},
-                    {MQTT},
-                    {MQTT_WS},
-                    {AMQPS},
-                    {AMQPS_WS},
+                    {AMQPS}
                 }
         );
     }
@@ -334,7 +330,7 @@ public class ProvisioningClientIT
     }
 
     // disable this test due to stability issue off TPM simulator on linux.
-    @Test (timeout = OVERALL_TEST_TIMEOUT)
+    @Test (timeout = 15*1000)
     public void individualEnrollmentTPMSimulator() throws Exception
     {
         if (testInstance.protocol == MQTT || testInstance.protocol == MQTT_WS)
