@@ -70,7 +70,7 @@ public class ProvisioningClientIT
 
     private static final long MAX_TIME_TO_WAIT_FOR_REGISTRATION = 20 * 60 * 1000; // one registration could take up to 20 mins
 
-    private static final long TPM_CONNECTION_TIMEOUT = 1 * 60 * 1000;
+    private static final long TPM_CONNECTION_TIMEOUT = 1 * 30 * 1000;
 
     private static final Integer IOTHUB_NUM_OF_MESSAGES_TO_SEND = 3; // milli secs of time to wait
     private static final List<MessageAndResult> messagesToSendAndResultsExpected = new ArrayList<>();
