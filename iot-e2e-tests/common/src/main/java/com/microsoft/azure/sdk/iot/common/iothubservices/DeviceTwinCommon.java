@@ -39,7 +39,7 @@ public class DeviceTwinCommon extends MethodNameLoggingIntegrationTest
 {
     // Max time to wait to see it on Hub
     private static final long PERIODIC_WAIT_TIME_FOR_VERIFICATION = 100; // 0.1 sec
-    private static final long MAX_WAIT_TIME_FOR_VERIFICATION = 60000; // 60 sec
+    private static final long MAX_WAIT_TIME_FOR_VERIFICATION = 180000; // 3 min
     private static final long DELAY_BETWEEN_OPERATIONS = 200; // 0.2 sec
 
     private static final long MAXIMUM_TIME_FOR_IOTHUB_PROPAGATION_BETWEEN_DEVICE_SERVICE_CLIENTS = DELAY_BETWEEN_OPERATIONS * 10; // 2 sec
@@ -74,7 +74,7 @@ public class DeviceTwinCommon extends MethodNameLoggingIntegrationTest
     private static final String TAG_VALUE = "Tag_Value";
     private static final String TAG_VALUE_UPDATE = "Tag_Value_Update";
 
-    // States of SDK
+    // States of SDKgit s
     private static RegistryManager registryManager;
     private static InternalClient internalClient;
     private static RawTwinQuery scRawTwinQueryClient;
