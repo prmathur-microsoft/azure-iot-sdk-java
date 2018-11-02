@@ -600,9 +600,9 @@ public class MqttMessagingTest
         };
     }
 
-    //Tests_SRS_MqttMessaging_34_036: [start method shall subscribe to the inputs channel if communicating as a module.]
+    //Tests_SRS_MqttMessaging_34_036: [start method shall subscribe to the inputs channel if communicating as a module to an edgehub.]
     @Test
-    public void startSubscribesForInputEventsIfIotHub(@Mocked final Mqtt mockMqtt) throws TransportException
+    public void startDoesNotSubscribeForInputEventsIfIotHub(@Mocked final Mqtt mockMqtt) throws TransportException
     {
         //arrange
         String deviceId = "1234";
@@ -619,7 +619,7 @@ public class MqttMessagingTest
         {
             {
                 Deencapsulation.invoke(mockMqtt, "subscribe", inputsSubsriptionChannel);
-                times = 1;
+                times = 0;
 
                 Deencapsulation.invoke(mockMqtt, "subscribe", eventsSubsriptionChannel);
                 times = 1;
