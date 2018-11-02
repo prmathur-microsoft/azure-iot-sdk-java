@@ -5,8 +5,6 @@
 
 package com.microsoft.azure.sdk.iot.common.helpers;
 
-import com.microsoft.azure.sdk.iot.common.MessageAndResult;
-import com.microsoft.azure.sdk.iot.common.iothubservices.IotHubServicesCommon;
 import com.microsoft.azure.sdk.iot.device.*;
 import com.microsoft.azure.sdk.iot.device.DeviceTwin.Device;
 import com.microsoft.azure.sdk.iot.device.DeviceTwin.DeviceMethodCallback;
@@ -81,8 +79,9 @@ public class DeviceEmulator  implements Runnable
         }
     }
 
-    void start()
+    void start() throws InterruptedException
     {
+        /*
         try
         {
             if (this.client != null)
@@ -94,6 +93,7 @@ public class DeviceEmulator  implements Runnable
         {
             e.printStackTrace();
         }
+        */
         clearStatistics();
 
         if (this.client != null)

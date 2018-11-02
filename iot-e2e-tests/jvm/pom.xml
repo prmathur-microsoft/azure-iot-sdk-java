@@ -120,6 +120,7 @@
                     http://maven.apache.org/surefire/maven-surefire-plugin/examples/fork-options-and-parallel-execution.html
                     -->
                     <forkCount>8</forkCount>
+                    <rerunFailingTestsCount>2</rerunFailingTestsCount>
                     <skipITs>${skipITs}</skipITs>
                     <argLine>
                         -javaagent:${settings.localRepository}/org/jmockit/jmockit/1.24/jmockit-1.24.jar

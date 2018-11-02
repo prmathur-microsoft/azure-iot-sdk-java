@@ -5,20 +5,18 @@
 
 package tests.integration.com.microsoft.azure.sdk.iot.serviceclient;
 
-import com.microsoft.azure.sdk.iot.common.TestConstants;
+import com.microsoft.azure.sdk.iot.common.helpers.TestConstants;
 import com.microsoft.azure.sdk.iot.common.helpers.Tools;
-import com.microsoft.azure.sdk.iot.common.serviceclient.ServiceClientCommon;
+import com.microsoft.azure.sdk.iot.common.tests.serviceclient.ServiceClientTests;
 import com.microsoft.azure.sdk.iot.service.IotHubServiceClientProtocol;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import java.util.Collection;
 
-import static com.microsoft.azure.sdk.iot.common.helpers.Tools.retrieveEnvironmentVariableValue;
-
 
 @RunWith(Parameterized.class)
-public class ServiceClientIT extends ServiceClientCommon
+public class ServiceClientIT extends ServiceClientTests
 {
     //This function is run before even the @BeforeClass annotation, so it is used as the @BeforeClass method
     @Parameterized.Parameters(name = "{0}")
@@ -28,7 +26,7 @@ public class ServiceClientIT extends ServiceClientCommon
                 Tools.retrieveEnvironmentVariableValue(TestConstants.IOT_HUB_CONNECTION_STRING_ENV_VAR_NAME);
         invalidCertificateServerConnectionString =
                 Tools.retrieveEnvironmentVariableValue(TestConstants.UNTRUSTWORTHY_IOT_HUB_CONNECTION_STRING_ENV_VAR_NAME);
-        return ServiceClientCommon.inputsCommon();
+        return ServiceClientTests.inputsCommon();
     }
 
     public ServiceClientIT(IotHubServiceClientProtocol protocol)

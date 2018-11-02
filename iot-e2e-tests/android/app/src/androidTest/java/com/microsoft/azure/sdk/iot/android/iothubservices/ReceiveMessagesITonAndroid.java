@@ -3,7 +3,7 @@ package com.microsoft.azure.sdk.iot.android.iothubservices;
 import com.microsoft.appcenter.espresso.Factory;
 import com.microsoft.appcenter.espresso.ReportHelper;
 import com.microsoft.azure.sdk.iot.android.BuildConfig;
-import com.microsoft.azure.sdk.iot.common.iothubservices.ReceiveMessagesCommon;
+import com.microsoft.azure.sdk.iot.common.tests.iothubservices.ReceiveMessagesTests;
 import com.microsoft.azure.sdk.iot.deps.util.Base64;
 import com.microsoft.azure.sdk.iot.device.InternalClient;
 import com.microsoft.azure.sdk.iot.device.IotHubClientProtocol;
@@ -12,6 +12,7 @@ import com.microsoft.azure.sdk.iot.service.Device;
 import com.microsoft.azure.sdk.iot.service.Module;
 import com.microsoft.azure.sdk.iot.service.auth.AuthenticationType;
 import com.microsoft.azure.sdk.iot.service.exceptions.IotHubException;
+import com.microsoft.azure.sdk.iot.common.helpers.ClientType;
 
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -24,7 +25,7 @@ import java.security.GeneralSecurityException;
 import java.util.Collection;
 
 @RunWith(Parameterized.class)
-public class ReceiveMessagesITonAndroid extends ReceiveMessagesCommon
+public class ReceiveMessagesITonAndroid extends ReceiveMessagesTests
 {
     @Rule
     public ReportHelper reportHelper = Factory.getReportHelper();
@@ -39,104 +40,12 @@ public class ReceiveMessagesITonAndroid extends ReceiveMessagesCommon
         x509Thumbprint = BuildConfig.IotHubThumbprint;
         privateKey = new String(Base64.decodeBase64Local(privateKeyBase64Encoded.getBytes()));
         publicKeyCert = new String(Base64.decodeBase64Local(publicKeyCertBase64Encoded.getBytes()));
-        includeModuleClientTest = false;
 
-        return ReceiveMessagesCommon.inputsCommon();
+        return ReceiveMessagesTests.inputsCommon(ClientType.DEVICE_CLIENT);
     }
 
-    public ReceiveMessagesITonAndroid(InternalClient client, IotHubClientProtocol protocol, Device device, Module module, AuthenticationType authenticationType, String clientType)
+    public ReceiveMessagesITonAndroid(InternalClient client, IotHubClientProtocol protocol, Device device, Module module, AuthenticationType authenticationType, String clientType, String uuid)
     {
-        super(client, protocol, device, module, authenticationType, clientType);
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void receiveMessagesWithTCPConnectionDrop() throws IOException, IotHubException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test 
-    public void receiveMessagesWithAmqpsConnectionDrop() throws IOException, IotHubException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test 
-    public void receiveMessagesWithAmqpsSessionDrop() throws IOException, IotHubException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test 
-    public void receiveMessagesWithAmqpsCBSReqLinkDrop() throws IOException, IotHubException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test 
-    public void receiveMessagesWithAmqpsCBSRespLinkDrop() throws IOException, IotHubException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test 
-    public void receiveMessagesWithAmqpsD2CLinkDrop() throws IOException, IotHubException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test 
-    public void receiveMessagesWithAmqpsC2DLinkDrop() throws IOException, IotHubException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test 
-    public void receiveMessagesWithAmqpsMethodReqLinkDrop() throws IOException, IotHubException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test 
-    public void receiveMessagesWithAmqpsMethodRespLinkDrop() throws IOException, IotHubException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test 
-    public void receiveMessagesWithAmqpsTwinReqLinkDrop() throws IOException, IotHubException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test 
-    public void receiveMessagesWithAmqpsTwinRespLinkDrop() throws IOException, IotHubException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test 
-    public void receiveMessagesWithGracefulShutdownAmqp() throws IOException, IotHubException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test 
-    public void receiveMessagesWithGracefulShutdownMqtt() throws IOException, IotHubException, InterruptedException
-    {
+        super(client, protocol, device, module, authenticationType, clientType, uuid);
     }
 }

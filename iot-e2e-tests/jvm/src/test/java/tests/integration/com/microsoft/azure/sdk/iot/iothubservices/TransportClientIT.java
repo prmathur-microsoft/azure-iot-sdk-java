@@ -5,9 +5,9 @@
 
 package tests.integration.com.microsoft.azure.sdk.iot.iothubservices;
 
-import com.microsoft.azure.sdk.iot.common.TestConstants;
+import com.microsoft.azure.sdk.iot.common.helpers.TestConstants;
 import com.microsoft.azure.sdk.iot.common.helpers.Tools;
-import com.microsoft.azure.sdk.iot.common.iothubservices.TransportClientCommon;
+import com.microsoft.azure.sdk.iot.common.tests.iothubservices.TransportClientCommon;
 import org.junit.BeforeClass;
 
 public class TransportClientIT extends TransportClientCommon
