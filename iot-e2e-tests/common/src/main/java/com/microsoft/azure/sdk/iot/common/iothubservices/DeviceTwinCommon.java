@@ -45,7 +45,7 @@ public class DeviceTwinCommon extends MethodNameLoggingIntegrationTest
     private static final long MAXIMUM_TIME_FOR_IOTHUB_PROPAGATION_BETWEEN_DEVICE_SERVICE_CLIENTS = DELAY_BETWEEN_OPERATIONS * 10; // 2 sec
 
     //Max time to wait before timing out test
-    private static final long MAX_MILLISECS_TIMEOUT_KILL_TEST = 120000; // 2 min
+    private static final long MAX_MILLISECS_TIMEOUT_KILL_TEST = 180000; // 3 min
 
     // Max reported properties to be tested
     private static final Integer MAX_PROPERTIES_TO_TEST = 5;
@@ -813,7 +813,7 @@ public class DeviceTwinCommon extends MethodNameLoggingIntegrationTest
         waitAndVerifyDesiredPropertyCallback(PROPERTY_VALUE_UPDATE, true);
     }
 
-    @Test(timeout = MAX_MILLISECS_TIMEOUT_KILL_TEST)
+    @Test(timeout = 240000)
     public void testSubscribeToDesiredPropertiesMultiThreaded() throws IOException, InterruptedException, IotHubException
     {
         // arrange
