@@ -81,7 +81,6 @@ public class DeviceEmulator  implements Runnable
 
     void start() throws InterruptedException
     {
-        /*
         try
         {
             if (this.client != null)
@@ -93,7 +92,7 @@ public class DeviceEmulator  implements Runnable
         {
             e.printStackTrace();
         }
-        */
+
         clearStatistics();
 
         if (this.client != null)

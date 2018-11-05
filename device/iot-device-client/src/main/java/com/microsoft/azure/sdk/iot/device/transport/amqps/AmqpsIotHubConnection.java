@@ -225,7 +225,7 @@ public final class AmqpsIotHubConnection extends BaseHandler implements IotHubTr
             catch (InterruptedException e)
             {
                 logger.LogError(e);
-                throw new TransportException("Waited too long for the connection to open.");
+                throw new TransportException("Waited too long for the connection to open.", e);
             }
         }
 
