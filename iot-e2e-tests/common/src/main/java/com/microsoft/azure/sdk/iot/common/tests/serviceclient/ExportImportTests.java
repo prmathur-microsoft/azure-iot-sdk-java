@@ -9,6 +9,7 @@ import com.microsoft.azure.sdk.iot.deps.serializer.ExportImportDeviceParser;
 import com.microsoft.azure.sdk.iot.deps.twin.TwinCollection;
 import com.microsoft.azure.sdk.iot.service.*;
 import com.microsoft.azure.sdk.iot.service.auth.AuthenticationMechanism;
+import com.microsoft.azure.sdk.iot.service.exceptions.IotHubTooManyDevicesException;
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.StorageException;
 import com.microsoft.azure.storage.blob.*;
@@ -145,7 +146,21 @@ public class ExportImportTests
         Boolean excludeKeys = false;
         String containerSasUri = getContainerSasUri(exportContainer);
 
-        JobProperties exportJob = registryManager.exportDevices(containerSasUri, excludeKeys);
+        boolean exportJobScheduled = false;
+        JobProperties exportJob = null;
+        while (!exportJobScheduled)
+        {
+            try
+            {
+                exportJob = registryManager.exportDevices(containerSasUri, excludeKeys);
+                exportJobScheduled = true;
+            }
+            catch (IotHubTooManyDevicesException e)
+            {
+                //test is being throttled, wait a while and try again
+                Thread.sleep(30 * 1000);
+            }
+        }
 
         JobProperties.JobStatus jobStatus;
 
@@ -227,7 +242,21 @@ public class ExportImportTests
         importBlob.upload(stream, blobToImport.length);
 
         // Starting the import job
-        JobProperties importJob = registryManager.importDevices(getContainerSasUri(importContainer), getContainerSasUri(importContainer));
+        boolean importJobScheduled = false;
+        JobProperties importJob = null;
+        while (!importJobScheduled)
+        {
+            try
+            {
+                importJob = registryManager.importDevices(getContainerSasUri(importContainer), getContainerSasUri(importContainer));
+                importJobScheduled = true;
+            }
+            catch (IotHubTooManyDevicesException e)
+            {
+                //test is being throttled, wait a while and try again
+                Thread.sleep(30 * 1000);
+            }
+        }
 
         // Waiting for the import job to complete
         long startTime = System.currentTimeMillis();
