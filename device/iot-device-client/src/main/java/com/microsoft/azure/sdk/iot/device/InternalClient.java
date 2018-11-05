@@ -139,12 +139,16 @@ public class InternalClient
 
         //Codes_SRS_INTERNALCLIENT_21_042: [The closeNow shall closeNow the deviceIO connection.]
         this.deviceIO.close();
+
+        this.twin = null;
     }
 
     public void closeNow() throws IOException
     {
         //Codes_SRS_INTERNALCLIENT_21_008: [The closeNow shall closeNow the deviceIO connection.]
         this.deviceIO.close();
+
+        this.twin = null;
     }
 
     /**
