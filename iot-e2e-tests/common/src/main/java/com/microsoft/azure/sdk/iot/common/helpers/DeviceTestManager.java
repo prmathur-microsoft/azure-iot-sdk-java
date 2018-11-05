@@ -5,7 +5,6 @@
 
 package com.microsoft.azure.sdk.iot.common.helpers;
 
-import com.microsoft.azure.sdk.iot.common.MessageAndResult;
 import com.microsoft.azure.sdk.iot.device.*;
 import com.microsoft.azure.sdk.iot.device.exceptions.ModuleClientException;
 
@@ -62,6 +61,8 @@ public class DeviceTestManager
     public void start() throws IOException, InterruptedException
     {
         this.deviceEmulator.start();
+
+        IotHubServicesCommon.openClientWithRetry(this.client);
 
         /* Enable DeviceMethod on the device client using the callbacks from the DeviceEmulator */
         deviceEmulator.enableDeviceMethod();
