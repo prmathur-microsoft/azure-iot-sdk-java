@@ -164,7 +164,6 @@ public class TransportClientCommon extends MethodNameLoggingIntegrationTest
             registryManager = null;
 
             clientConnectionStringArrayList.clear();
-            clientConnectionStringArrayList = null;
         }
 
         if (serviceClient != null)
