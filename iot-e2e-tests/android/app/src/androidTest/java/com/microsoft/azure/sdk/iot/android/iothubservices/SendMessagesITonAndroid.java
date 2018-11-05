@@ -7,7 +7,7 @@ package com.microsoft.azure.sdk.iot.android.iothubservices;
 
 import com.microsoft.azure.sdk.iot.android.BuildConfig;
 import com.microsoft.azure.sdk.iot.android.helper.Rerun;
-import com.microsoft.azure.sdk.iot.common.iothubservices.SendMessagesCommon;
+import com.microsoft.azure.sdk.iot.common.tests.iothubservices.SendMessagesTests;
 import com.microsoft.azure.sdk.iot.deps.util.Base64;
 import com.microsoft.azure.sdk.iot.device.InternalClient;
 import com.microsoft.azure.sdk.iot.device.IotHubClientProtocol;
@@ -15,6 +15,7 @@ import com.microsoft.azure.sdk.iot.device.exceptions.ModuleClientException;
 import com.microsoft.azure.sdk.iot.service.Device;
 import com.microsoft.azure.sdk.iot.service.auth.AuthenticationType;
 import com.microsoft.azure.sdk.iot.service.exceptions.IotHubException;
+import com.microsoft.azure.sdk.iot.common.helpers.ClientType;
 
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -29,7 +30,7 @@ import com.microsoft.appcenter.espresso.Factory;
 import com.microsoft.appcenter.espresso.ReportHelper;
 
 @RunWith(Parameterized.class)
-public class SendMessagesITonAndroid extends SendMessagesCommon
+public class SendMessagesITonAndroid extends SendMessagesTests
 {
     @Rule
     public Rerun count = new Rerun(3);
@@ -47,139 +48,12 @@ public class SendMessagesITonAndroid extends SendMessagesCommon
         x509Thumbprint = BuildConfig.IotHubThumbprint;
         privateKey = new String(Base64.decodeBase64Local(privateKeyBase64Encoded.getBytes()));
         publicKeyCert = new String(Base64.decodeBase64Local(publicKeyCertBase64Encoded.getBytes()));
-        includeModuleClientTest = false;
 
-        return SendMessagesCommon.inputsCommon();
+        return SendMessagesTests.inputsCommon(ClientType.DEVICE_CLIENT);
     }
 
-    public SendMessagesITonAndroid(InternalClient client, IotHubClientProtocol protocol, Device device, AuthenticationType authenticationType, String clientType)
+    public SendMessagesITonAndroid(InternalClient client, IotHubClientProtocol protocol, Device device, AuthenticationType authenticationType, String clientType, String uuid)
     {
-        super(client, protocol, device, authenticationType, clientType);
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendMessagesWithTcpConnectionDrop() throws IOException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendMessagesOverAmqpWithConnectionDrop() throws IOException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendMessagesOverAmqpWithSessionDrop() throws IOException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendMessagesOverAmqpWithCbsRequestLinkDrop() throws IOException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendMessagesOverAmqpWithCbsResponseLinkDrop() throws IOException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendMessagesOverAmqpWithD2CLinkDrop() throws IOException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendMessagesOverAmqpWithC2DLinkDrop() throws IOException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendMessagesOverAmqpWithMethodReqLinkDrop() throws IOException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendMessagesOverAmqpWithMethodRespLinkDrop() throws IOException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendMessagesOverAmqpWithTwinReqLinkDrop() throws IOException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendMessagesOverAmqpWithTwinRespLinkDrop() throws IOException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendMessagesWithThrottling() throws URISyntaxException, IOException, IotHubException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendMessagesWithThrottlingNoRetry() throws URISyntaxException, IOException, IotHubException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendMessagesWithAuthenticationError() throws URISyntaxException, IOException, IotHubException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendMessagesWithQuotaExceeded() throws URISyntaxException, IOException, IotHubException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendMessagesOverAmqpWithGracefulShutdown() throws IOException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendMessagesOverMqttWithGracefulShutdown() throws IOException, InterruptedException
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendMessagesWithTcpConnectionDropNotifiesUserIfRetryExpires() throws IOException, InterruptedException
-    {
+        super(client, protocol, device, authenticationType, clientType, uuid);
     }
 }

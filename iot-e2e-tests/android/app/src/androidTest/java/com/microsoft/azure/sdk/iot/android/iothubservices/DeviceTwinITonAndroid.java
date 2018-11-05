@@ -9,10 +9,11 @@ import com.microsoft.appcenter.espresso.Factory;
 import com.microsoft.appcenter.espresso.ReportHelper;
 import com.microsoft.azure.sdk.iot.android.BuildConfig;
 import com.microsoft.azure.sdk.iot.android.helper.Rerun;
-import com.microsoft.azure.sdk.iot.common.iothubservices.DeviceTwinCommon;
+import com.microsoft.azure.sdk.iot.common.tests.iothubservices.DeviceTwinTests;
 import com.microsoft.azure.sdk.iot.deps.util.Base64;
 import com.microsoft.azure.sdk.iot.device.IotHubClientProtocol;
 import com.microsoft.azure.sdk.iot.service.auth.AuthenticationType;
+import com.microsoft.azure.sdk.iot.common.helpers.ClientType;
 
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -25,7 +26,7 @@ import java.security.GeneralSecurityException;
 import java.util.Collection;
 
 @RunWith(Parameterized.class)
-public class DeviceTwinITonAndroid extends DeviceTwinCommon
+public class DeviceTwinITonAndroid extends DeviceTwinTests
 {
     @Rule
     public Rerun count = new Rerun(3);
@@ -43,256 +44,12 @@ public class DeviceTwinITonAndroid extends DeviceTwinCommon
         x509Thumbprint = BuildConfig.IotHubThumbprint;
         privateKey = new String(Base64.decodeBase64Local(privateKeyBase64Encoded.getBytes()));
         publicKeyCert = new String(Base64.decodeBase64Local(publicKeyCertBase64Encoded.getBytes()));
-        includeModuleClientTest = false;
 
-        return DeviceTwinCommon.inputsCommon();
+        return DeviceTwinTests.inputsCommon(ClientType.DEVICE_CLIENT);
     }
 
-    public DeviceTwinITonAndroid(String deviceId, String moduleId, IotHubClientProtocol protocol, AuthenticationType authenticationType, String clientType)
+    public DeviceTwinITonAndroid(String deviceId, String moduleId, IotHubClientProtocol protocol, AuthenticationType authenticationType, String clientType, String uuid)
     {
-        super(deviceId, moduleId, protocol, authenticationType, clientType);
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendReportedPropertiesRecoveredFromTcpConnectionDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void subscribeToDesiredPropertiesRecoveredFromTcpConnectionDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void getDeviceTwinRecoveredFromTcpConnectionDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendReportedPropertiesRecoveredFromAmqpsConnectionDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void subscribeToDesiredPropertiesRecoveredFromAmqpsConnectionDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void getDeviceTwinRecoveredFromAmqpsConnectionDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendReportedPropertiesRecoveredFromAmqpsSessionDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void subscribeToDesiredPropertiesRecoveredFromAmqpsSessionDrop() throws Exception
-    {
-    }
-
-    @Test
-    public void getDeviceTwinRecoveredFromAmqpsSessionDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendReportedPropertiesRecoveredFromAmqpsCBSReqLinkDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void subscribeToDesiredPropertiesRecoveredFromAmqpsCBSReqLinkrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void getDeviceTwinRecoveredFromAmqpsCBSReqLinkDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendReportedPropertiesRecoveredFromAmqpsCBSRespLinkDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void subscribeToDesiredPropertiesRecoveredFromAmqpsCBSRespLinkDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void getDeviceTwinRecoveredFromAmqpsCBSRespLinkDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendReportedPropertiesRecoveredFromAmqpsD2CLinkDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void subscribeToDesiredPropertiesRecoveredFromAmqpsD2CDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void getDeviceTwinRecoveredFromAmqpsD2CLinkDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendReportedPropertiesRecoveredFromAmqpsC2DLinkDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void subscribeToDesiredPropertiesRecoveredFromC2DDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void getDeviceTwinRecoveredFromAmqpsC2DLinkDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendReportedPropertiesRecoveredFromAmqpsTwinReqLinkDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void subscribeToDesiredPropertiesRecoveredFromAmqpsTwinReqLinkDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void getDeviceTwinRecoveredFromAmqpsTwinReqLinkDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendReportedPropertiesRecoveredFromAmqpsTwinRespLinkDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void subscribeToDesiredPropertiesRecoveredFromAmqpsTwinRespLinkDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void getDeviceTwinRecoveredFromAmqpsTwinRespLinkDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendReportedPropertiesRecoveredFromAmqpsMethodReqLinkDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void subscribeToDesiredPropertiesRecoveredFromAmqpsMethodReqLinkDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void getDeviceTwinRecoveredFromAmqpsMethodReqLinkDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void sendReportedPropertiesRecoveredFromAmqpsMethodRespLinkDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void subscribeToDesiredPropertiesRecoveredFromAmqpsMethodRespLinkDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void getDeviceTwinRecoveredFromAmqpsMethodRespLinkDrop() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void getDeviceTwinRecoveredFromGracefulShutdownAmqp() throws Exception
-    {
-    }
-
-    @Ignore
-    @Override
-    @Test
-    public void getDeviceTwinRecoveredFromGracefulShutdownMqtt() throws Exception
-    {
+        super(deviceId, moduleId, protocol, authenticationType, clientType, uuid);
     }
 }
