@@ -216,7 +216,7 @@ public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
     @Before
     public void cleanToStart()
     {
-
+        
         try
         {
             this.testInstance.deviceTestManager.stop();
