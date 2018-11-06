@@ -5,18 +5,18 @@
 
 package tests.integration.com.microsoft.azure.sdk.iot.serviceclient;
 
-import com.microsoft.azure.sdk.iot.common.TestConstants;
+import com.microsoft.azure.sdk.iot.common.helpers.TestConstants;
 import com.microsoft.azure.sdk.iot.common.helpers.Tools;
-import com.microsoft.azure.sdk.iot.common.serviceclient.RegistryManagerCommon;
+import com.microsoft.azure.sdk.iot.common.tests.serviceclient.RegistryManagerTests;
 import org.junit.BeforeClass;
 import java.io.IOException;
 
-public class RegistryManagerIT extends RegistryManagerCommon
+public class RegistryManagerIT extends RegistryManagerTests
 {
     @BeforeClass
     public static void setUp() throws IOException
     {
         iotHubConnectionString = Tools.retrieveEnvironmentVariableValue(TestConstants.IOT_HUB_CONNECTION_STRING_ENV_VAR_NAME);
-        RegistryManagerCommon.setUp();
+        RegistryManagerTests.setUp();
     }
 }
