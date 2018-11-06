@@ -168,6 +168,98 @@ public class DeviceMethodTests extends DeviceMethodCommon
     }
 
     @Test(timeout=DEFAULT_TEST_TIMEOUT)
+    public void invokeMethodRecoverFromTimeoutSucceed() throws Exception
+    {
+            // Arrange
+            DeviceTestManager deviceTestManger = this.testInstance.deviceTestManager;
+
+            try
+            {
+                if (testInstance.module != null)
+                {
+                    methodServiceClient.invoke(testInstance.device.getDeviceId(), testInstance.module.getId(), DeviceEmulator.METHOD_DELAY_IN_MILLISECONDS, (long)5, CONNECTION_TIMEOUT, "7000");
+                }
+                else
+                {
+                    methodServiceClient.invoke(testInstance.device.getDeviceId(), DeviceEmulator.METHOD_DELAY_IN_MILLISECONDS, (long)5, CONNECTION_TIMEOUT, "7000");
+                }
+                assert true;
+            }
+            catch(IotHubGatewayTimeoutException expected)
+            {
+                //Don't do anything. Expected throw.
+            }
+
+            // Act
+            MethodResult result;
+            if (testInstance.module != null)
+            {
+                result = methodServiceClient.invoke(testInstance.device.getDeviceId(), testInstance.module.getId(), DeviceEmulator.METHOD_DELAY_IN_MILLISECONDS, RESPONSE_TIMEOUT, CONNECTION_TIMEOUT, "100");
+            }
+            else
+            {
+                result = methodServiceClient.invoke(testInstance.device.getDeviceId(), DeviceEmulator.METHOD_DELAY_IN_MILLISECONDS, RESPONSE_TIMEOUT, CONNECTION_TIMEOUT, "100");
+            }
+            deviceTestManger.waitIotHub(1, 10);
+
+            // Assert
+            assertNotNull(result);
+            assertEquals((long)DeviceEmulator.METHOD_SUCCESS, (long)result.getStatus());
+            assertEquals(DeviceEmulator.METHOD_DELAY_IN_MILLISECONDS + ":succeed", result.getPayload());
+            Assert.assertEquals(0, deviceTestManger.getStatusError());
+        }
+
+    @Test(timeout=DEFAULT_TEST_TIMEOUT)
+    public void invokeMethodDefaultResponseTimeoutSucceed() throws Exception
+    {
+            // Arrange
+            DeviceTestManager deviceTestManger = this.testInstance.deviceTestManager;
+
+            // Act
+            MethodResult result;
+            if (testInstance.module != null)
+            {
+                result = methodServiceClient.invoke(testInstance.device.getDeviceId(), testInstance.module.getId(), DeviceEmulator.METHOD_DELAY_IN_MILLISECONDS, null, CONNECTION_TIMEOUT, "100");
+            }
+            else
+            {
+                result = methodServiceClient.invoke(testInstance.device.getDeviceId(), DeviceEmulator.METHOD_DELAY_IN_MILLISECONDS, null, CONNECTION_TIMEOUT, "100");
+            }
+            deviceTestManger.waitIotHub(1, 10);
+
+            // Assert
+            assertNotNull(result);
+            assertEquals((long)DeviceEmulator.METHOD_SUCCESS, (long)result.getStatus());
+            assertEquals(DeviceEmulator.METHOD_DELAY_IN_MILLISECONDS + ":succeed", result.getPayload());
+            Assert.assertEquals(0, deviceTestManger.getStatusError());
+        }
+
+    @Test(timeout=DEFAULT_TEST_TIMEOUT)
+    public void invokeMethodDefaultConnectionTimeoutSucceed() throws Exception
+    {
+            // Arrange
+            DeviceTestManager deviceTestManger = this.testInstance.deviceTestManager;
+
+            // Act
+            MethodResult result;
+            if (testInstance.module != null)
+            {
+                result = methodServiceClient.invoke(testInstance.device.getDeviceId(), testInstance.module.getId(), DeviceEmulator.METHOD_DELAY_IN_MILLISECONDS, RESPONSE_TIMEOUT, null, "100");
+            }
+            else
+            {
+                result = methodServiceClient.invoke(testInstance.device.getDeviceId(), DeviceEmulator.METHOD_DELAY_IN_MILLISECONDS, RESPONSE_TIMEOUT, null, "100");
+            }
+            deviceTestManger.waitIotHub(1, 10);
+
+            // Assert
+            assertNotNull(result);
+            assertEquals((long)DeviceEmulator.METHOD_SUCCESS, (long)result.getStatus());
+            assertEquals(DeviceEmulator.METHOD_DELAY_IN_MILLISECONDS + ":succeed", result.getPayload());
+            Assert.assertEquals(0, deviceTestManger.getStatusError());
+        }
+
+    @Test(timeout=DEFAULT_TEST_TIMEOUT)
     public void invokeMethodThrowsNumberFormatExceptionFailed() throws Exception
     {
         // Arrange
@@ -217,98 +309,6 @@ public class DeviceMethodTests extends DeviceMethodCommon
         Assert.assertEquals(0, deviceTestManger.getStatusError());
     }
 
-    @Test(timeout=DEFAULT_TEST_TIMEOUT)
-    public void invokeMethodRecoverFromTimeoutSucceed() throws Exception
-    {
-        // Arrange
-        DeviceTestManager deviceTestManger = this.testInstance.deviceTestManager;
-
-        try
-        {
-            if (testInstance.module != null)
-            {
-                methodServiceClient.invoke(testInstance.device.getDeviceId(), testInstance.module.getId(), DeviceEmulator.METHOD_DELAY_IN_MILLISECONDS, (long)5, CONNECTION_TIMEOUT, "7000");
-            }
-            else
-            {
-                methodServiceClient.invoke(testInstance.device.getDeviceId(), DeviceEmulator.METHOD_DELAY_IN_MILLISECONDS, (long)5, CONNECTION_TIMEOUT, "7000");
-            }
-            assert true;
-        }
-        catch(IotHubGatewayTimeoutException expected)
-        {
-            //Don't do anything. Expected throw.
-        }
-
-        // Act
-        MethodResult result;
-        if (testInstance.module != null)
-        {
-            result = methodServiceClient.invoke(testInstance.device.getDeviceId(), testInstance.module.getId(), DeviceEmulator.METHOD_DELAY_IN_MILLISECONDS, RESPONSE_TIMEOUT, CONNECTION_TIMEOUT, "100");
-        }
-        else
-        {
-            result = methodServiceClient.invoke(testInstance.device.getDeviceId(), DeviceEmulator.METHOD_DELAY_IN_MILLISECONDS, RESPONSE_TIMEOUT, CONNECTION_TIMEOUT, "100");
-        }
-        deviceTestManger.waitIotHub(1, 10);
-
-        // Assert
-        assertNotNull(result);
-        assertEquals((long)DeviceEmulator.METHOD_SUCCESS, (long)result.getStatus());
-        assertEquals(DeviceEmulator.METHOD_DELAY_IN_MILLISECONDS + ":succeed", result.getPayload());
-        Assert.assertEquals(0, deviceTestManger.getStatusError());
-    }
-
-    @Test(timeout=DEFAULT_TEST_TIMEOUT)
-    public void invokeMethodDefaultResponseTimeoutSucceed() throws Exception
-    {
-        // Arrange
-        DeviceTestManager deviceTestManger = this.testInstance.deviceTestManager;
-
-        // Act
-        MethodResult result;
-        if (testInstance.module != null)
-        {
-            result = methodServiceClient.invoke(testInstance.device.getDeviceId(), testInstance.module.getId(), DeviceEmulator.METHOD_DELAY_IN_MILLISECONDS, null, CONNECTION_TIMEOUT, "100");
-        }
-        else
-        {
-            result = methodServiceClient.invoke(testInstance.device.getDeviceId(), DeviceEmulator.METHOD_DELAY_IN_MILLISECONDS, null, CONNECTION_TIMEOUT, "100");
-        }
-        deviceTestManger.waitIotHub(1, 10);
-
-        // Assert
-        assertNotNull(result);
-        assertEquals((long)DeviceEmulator.METHOD_SUCCESS, (long)result.getStatus());
-        assertEquals(DeviceEmulator.METHOD_DELAY_IN_MILLISECONDS + ":succeed", result.getPayload());
-        Assert.assertEquals(0, deviceTestManger.getStatusError());
-    }
-
-    @Test(timeout=DEFAULT_TEST_TIMEOUT)
-    public void invokeMethodDefaultConnectionTimeoutSucceed() throws Exception
-    {
-        // Arrange
-        DeviceTestManager deviceTestManger = this.testInstance.deviceTestManager;
-
-        // Act
-        MethodResult result;
-        if (testInstance.module != null)
-        {
-            result = methodServiceClient.invoke(testInstance.device.getDeviceId(), testInstance.module.getId(), DeviceEmulator.METHOD_DELAY_IN_MILLISECONDS, RESPONSE_TIMEOUT, null, "100");
-        }
-        else
-        {
-            result = methodServiceClient.invoke(testInstance.device.getDeviceId(), DeviceEmulator.METHOD_DELAY_IN_MILLISECONDS, RESPONSE_TIMEOUT, null, "100");
-        }
-        deviceTestManger.waitIotHub(1, 10);
-
-        // Assert
-        assertNotNull(result);
-        assertEquals((long)DeviceEmulator.METHOD_SUCCESS, (long)result.getStatus());
-        assertEquals(DeviceEmulator.METHOD_DELAY_IN_MILLISECONDS + ":succeed", result.getPayload());
-        Assert.assertEquals(0, deviceTestManger.getStatusError());
-    }
-
     @Test(timeout=DEFAULT_TEST_TIMEOUT, expected = IotHubGatewayTimeoutException.class)
     public void invokeMethodResponseTimeoutFailed() throws Exception
     {
@@ -327,15 +327,15 @@ public class DeviceMethodTests extends DeviceMethodCommon
     @Test(timeout=DEFAULT_TEST_TIMEOUT, expected = IotHubNotFoundException.class)
     public void invokeMethodUnknownDeviceFailed() throws Exception
     {
-        if (testInstance.module != null)
-        {
-            methodServiceClient.invoke(testInstance.device.getDeviceId(), "someModuleThatDoesNotExistOnADeviceThatDoesExist", DeviceEmulator.METHOD_LOOPBACK, RESPONSE_TIMEOUT, CONNECTION_TIMEOUT, PAYLOAD_STRING);
+            if (testInstance.module != null)
+            {
+                methodServiceClient.invoke(testInstance.device.getDeviceId(), "someModuleThatDoesNotExistOnADeviceThatDoesExist", DeviceEmulator.METHOD_LOOPBACK, RESPONSE_TIMEOUT, CONNECTION_TIMEOUT, PAYLOAD_STRING);
+            }
+            else
+            {
+                methodServiceClient.invoke("someDeviceThatDoesNotExist", DeviceEmulator.METHOD_LOOPBACK, RESPONSE_TIMEOUT, CONNECTION_TIMEOUT, PAYLOAD_STRING);
+            }
         }
-        else
-        {
-            methodServiceClient.invoke("someDeviceThatDoesNotExist", DeviceEmulator.METHOD_LOOPBACK, RESPONSE_TIMEOUT, CONNECTION_TIMEOUT, PAYLOAD_STRING);
-        }
-    }
 
     @Test(timeout=DEFAULT_TEST_TIMEOUT)
     public void invokeMethodResetDeviceFailed() throws Exception

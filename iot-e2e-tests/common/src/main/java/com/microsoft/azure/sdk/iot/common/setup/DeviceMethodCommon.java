@@ -246,7 +246,6 @@ public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
             e.printStackTrace();
             //Only thrown when twin was already initialized. Safe to ignore
         }
-        
     }
 
     @After
