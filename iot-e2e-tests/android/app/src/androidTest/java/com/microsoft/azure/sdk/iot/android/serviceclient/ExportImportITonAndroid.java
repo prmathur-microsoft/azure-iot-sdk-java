@@ -8,7 +8,7 @@ package com.microsoft.azure.sdk.iot.android.serviceclient;
 import com.microsoft.appcenter.espresso.Factory;
 import com.microsoft.appcenter.espresso.ReportHelper;
 import com.microsoft.azure.sdk.iot.android.BuildConfig;
-import com.microsoft.azure.sdk.iot.common.serviceclient.ExportImportCommon;
+import com.microsoft.azure.sdk.iot.common.tests.serviceclient.ExportImportTests;
 import com.microsoft.azure.storage.StorageException;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 
-public class ExportImportITonAndroid extends ExportImportCommon
+public class ExportImportITonAndroid extends ExportImportTests
 {
     @Rule
     public ReportHelper reportHelper = Factory.getReportHelper();
@@ -28,6 +28,6 @@ public class ExportImportITonAndroid extends ExportImportCommon
     {
         iotHubConnectionString = BuildConfig.IotHubConnectionString;
         storageAccountConnectionString = BuildConfig.IotHubInvalidCertConnectionString;
-        ExportImportCommon.setUp();
+        ExportImportTests.setUp();
     }
 }

@@ -7,7 +7,7 @@ package com.microsoft.azure.sdk.iot.android.serviceclient;
 import com.microsoft.appcenter.espresso.Factory;
 import com.microsoft.appcenter.espresso.ReportHelper;
 import com.microsoft.azure.sdk.iot.android.BuildConfig;
-import com.microsoft.azure.sdk.iot.common.serviceclient.ServiceClientCommon;
+import com.microsoft.azure.sdk.iot.common.tests.serviceclient.ServiceClientTests;
 import com.microsoft.azure.sdk.iot.service.IotHubServiceClientProtocol;
 
 import org.junit.Ignore;
@@ -17,7 +17,7 @@ import org.junit.runners.Parameterized;
 import java.util.Collection;
 
 @RunWith(Parameterized.class)
-public class ServiceClientITonAndroid extends ServiceClientCommon
+public class ServiceClientITonAndroid extends ServiceClientTests
 {
     @Rule
     public ReportHelper reportHelper = Factory.getReportHelper();
@@ -28,7 +28,7 @@ public class ServiceClientITonAndroid extends ServiceClientCommon
     {
         iotHubConnectionString = BuildConfig.IotHubConnectionString;
         invalidCertificateServerConnectionString = BuildConfig.IotHubInvalidCertConnectionString;
-        return ServiceClientCommon.inputsCommon();
+        return ServiceClientTests.inputsCommon();
     }
 
     public ServiceClientITonAndroid(IotHubServiceClientProtocol protocol)
