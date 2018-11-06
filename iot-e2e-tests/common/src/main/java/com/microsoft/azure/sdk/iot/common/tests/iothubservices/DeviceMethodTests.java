@@ -168,56 +168,6 @@ public class DeviceMethodTests extends DeviceMethodCommon
     }
 
     @Test(timeout=DEFAULT_TEST_TIMEOUT)
-    public void invokeMethodThrowsNumberFormatExceptionFailed() throws Exception
-    {
-        // Arrange
-        DeviceTestManager deviceTestManger = this.testInstance.deviceTestManager;
-
-        // Act
-        MethodResult result;
-        if (testInstance.module != null)
-        {
-            result = methodServiceClient.invoke(testInstance.device.getDeviceId(), testInstance.module.getId(), DeviceEmulator.METHOD_DELAY_IN_MILLISECONDS, RESPONSE_TIMEOUT, CONNECTION_TIMEOUT, PAYLOAD_STRING);
-        }
-        else
-        {
-            result = methodServiceClient.invoke(testInstance.device.getDeviceId(), DeviceEmulator.METHOD_DELAY_IN_MILLISECONDS, RESPONSE_TIMEOUT, CONNECTION_TIMEOUT, PAYLOAD_STRING);
-        }
-        deviceTestManger.waitIotHub(1, 10);
-
-        // Assert
-        assertNotNull(result);
-        assertEquals((long)DeviceEmulator.METHOD_THROWS, (long)result.getStatus());
-        assertEquals("java.lang.NumberFormatException: For input string: \"" + PAYLOAD_STRING + "\"", result.getPayload());
-        Assert.assertEquals(0, deviceTestManger.getStatusError());
-    }
-
-    @Test(timeout=DEFAULT_TEST_TIMEOUT)
-    public void invokeMethodUnknownFailed() throws Exception
-    {
-        // Arrange
-        DeviceTestManager deviceTestManger = this.testInstance.deviceTestManager;
-
-        // Act
-        MethodResult result;
-        if (testInstance.module != null)
-        {
-            result = methodServiceClient.invoke(testInstance.device.getDeviceId(), testInstance.module.getId(), DeviceEmulator.METHOD_UNKNOWN, RESPONSE_TIMEOUT, CONNECTION_TIMEOUT, PAYLOAD_STRING);
-        }
-        else
-        {
-            result = methodServiceClient.invoke(testInstance.device.getDeviceId(), DeviceEmulator.METHOD_UNKNOWN, RESPONSE_TIMEOUT, CONNECTION_TIMEOUT, PAYLOAD_STRING);
-        }
-        deviceTestManger.waitIotHub(1, 10);
-
-        // Assert
-        assertNotNull(result);
-        assertEquals((long)DeviceEmulator.METHOD_NOT_DEFINED, (long)result.getStatus());
-        Assert.assertEquals("unknown:" + DeviceEmulator.METHOD_UNKNOWN, result.getPayload());
-        Assert.assertEquals(0, deviceTestManger.getStatusError());
-    }
-
-    @Test(timeout=DEFAULT_TEST_TIMEOUT)
     public void invokeMethodRecoverFromTimeoutSucceed() throws Exception
     {
         // Arrange
@@ -309,6 +259,56 @@ public class DeviceMethodTests extends DeviceMethodCommon
         Assert.assertEquals(0, deviceTestManger.getStatusError());
     }
 
+    @Test(timeout=DEFAULT_TEST_TIMEOUT)
+    public void invokeMethodThrowsNumberFormatExceptionFailed() throws Exception
+    {
+        // Arrange
+        DeviceTestManager deviceTestManger = this.testInstance.deviceTestManager;
+
+        // Act
+        MethodResult result;
+        if (testInstance.module != null)
+        {
+            result = methodServiceClient.invoke(testInstance.device.getDeviceId(), testInstance.module.getId(), DeviceEmulator.METHOD_DELAY_IN_MILLISECONDS, RESPONSE_TIMEOUT, CONNECTION_TIMEOUT, PAYLOAD_STRING);
+        }
+        else
+        {
+            result = methodServiceClient.invoke(testInstance.device.getDeviceId(), DeviceEmulator.METHOD_DELAY_IN_MILLISECONDS, RESPONSE_TIMEOUT, CONNECTION_TIMEOUT, PAYLOAD_STRING);
+        }
+        deviceTestManger.waitIotHub(1, 10);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals((long)DeviceEmulator.METHOD_THROWS, (long)result.getStatus());
+        assertEquals("java.lang.NumberFormatException: For input string: \"" + PAYLOAD_STRING + "\"", result.getPayload());
+        Assert.assertEquals(0, deviceTestManger.getStatusError());
+    }
+
+    @Test(timeout=DEFAULT_TEST_TIMEOUT)
+    public void invokeMethodUnknownFailed() throws Exception
+    {
+        // Arrange
+        DeviceTestManager deviceTestManger = this.testInstance.deviceTestManager;
+
+        // Act
+        MethodResult result;
+        if (testInstance.module != null)
+        {
+            result = methodServiceClient.invoke(testInstance.device.getDeviceId(), testInstance.module.getId(), DeviceEmulator.METHOD_UNKNOWN, RESPONSE_TIMEOUT, CONNECTION_TIMEOUT, PAYLOAD_STRING);
+        }
+        else
+        {
+            result = methodServiceClient.invoke(testInstance.device.getDeviceId(), DeviceEmulator.METHOD_UNKNOWN, RESPONSE_TIMEOUT, CONNECTION_TIMEOUT, PAYLOAD_STRING);
+        }
+        deviceTestManger.waitIotHub(1, 10);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals((long)DeviceEmulator.METHOD_NOT_DEFINED, (long)result.getStatus());
+        Assert.assertEquals("unknown:" + DeviceEmulator.METHOD_UNKNOWN, result.getPayload());
+        Assert.assertEquals(0, deviceTestManger.getStatusError());
+    }
+
     @Test(timeout=DEFAULT_TEST_TIMEOUT, expected = IotHubGatewayTimeoutException.class)
     public void invokeMethodResponseTimeoutFailed() throws Exception
     {
@@ -374,4 +374,5 @@ public class DeviceMethodTests extends DeviceMethodCommon
             deviceTestManger.restartDevice(registryManager.getDeviceConnectionString(testInstance.device), testInstance.protocol, testInstance.publicKeyCert, testInstance.privateKey);
         }
     }
+
 }
