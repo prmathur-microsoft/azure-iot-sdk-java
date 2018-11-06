@@ -33,7 +33,7 @@ abstract public class Mqtt implements MqttCallback
     Object mqttLock;
     Object publishLock;
 
-    private static Map<Integer, Message> unacknowledgedSentMessages = new ConcurrentHashMap<>();
+    private static Map<Integer, Message> unacknowledgedSentMessages;
 
     // SAS token expiration check on retry
     private boolean userSpecifiedSASTokenExpiredOnRetry = false;
@@ -77,6 +77,12 @@ abstract public class Mqtt implements MqttCallback
      */
     public Mqtt(MqttConnection mqttConnection, IotHubListener listener, MqttMessageListener messageListener, String connectionId) throws IllegalArgumentException
     {
+        if (unacknowledgedSentMessages == null)
+        {
+            //since it is shared with all mqtt implementations, don't want to overwrite any saved messages
+            unacknowledgedSentMessages = new ConcurrentHashMap<>();
+        }
+
         if (mqttConnection == null)
         {
             //Codes_SRS_Mqtt_25_002: [The constructor shall throw an IllegalArgumentException if mqttConnection is null.]
@@ -389,7 +395,7 @@ abstract public class Mqtt implements MqttCallback
             {
                 if (this.unacknowledgedSentMessages.containsKey(iMqttDeliveryToken.getMessageId()))
                 {
-                    Message deliveredMessage = this.unacknowledgedSentMessages.get(iMqttDeliveryToken.getMessageId());
+                    Message deliveredMessage = this.unacknowledgedSentMessages.remove(iMqttDeliveryToken.getMessageId());
 
                     if (deliveredMessage instanceof IotHubTransportMessage)
                     {
@@ -408,7 +414,7 @@ abstract public class Mqtt implements MqttCallback
                     }
 
                     //Codes_SRS_Mqtt_34_042: [If this object has a saved listener, that listener shall be notified of the successfully delivered message.]
-                    this.listener.onMessageSent(this.unacknowledgedSentMessages.get(iMqttDeliveryToken.getMessageId()), null);
+                    this.listener.onMessageSent(deliveredMessage, null);
                 }
             }
         }
