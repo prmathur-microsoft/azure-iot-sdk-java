@@ -21,7 +21,7 @@ public class ExportImportIT extends ExportImportCommon
     public static void setUp() throws URISyntaxException, InvalidKeyException, StorageException, IOException
     {
         iotHubConnectionString = Tools.retrieveEnvironmentVariableValue(TestConstants.IOT_HUB_CONNECTION_STRING_ENV_VAR_NAME);
-        storageAccountConnectionString = Tools.retrieveEnvironmentVariableValue(TestConstants.STORAGE_ACCOUNT_CONNECTION_STRING_ENV_VAR_NAME);
+        storageAccountConnectionString = "asdf";//Tools.retrieveEnvironmentVariableValue(TestConstants.STORAGE_ACCOUNT_CONNECTION_STRING_ENV_VAR_NAME);
         ExportImportCommon.setUp();
     }
 }

@@ -8,14 +8,19 @@ package com.microsoft.azure.sdk.iot.android.serviceclient;
 import com.microsoft.appcenter.espresso.Factory;
 import com.microsoft.appcenter.espresso.ReportHelper;
 import com.microsoft.azure.sdk.iot.android.BuildConfig;
+import com.microsoft.azure.sdk.iot.common.helpers.DeviceTestManager;
 import com.microsoft.azure.sdk.iot.common.serviceclient.JobClientCommon;
 import com.microsoft.azure.sdk.iot.service.exceptions.IotHubException;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Rule;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class JobClientITonAndroid extends JobClientCommon
 {
@@ -27,5 +32,34 @@ public class JobClientITonAndroid extends JobClientCommon
     {
         iotHubConnectionString = BuildConfig.IotHubConnectionString;
         JobClientCommon.setUp();
+    }
+/*
+    @Override
+    @Test
+    @Ignore
+    public void scheduleUpdateTwinSucceed() throws IOException, IotHubException, InterruptedException
+    {
+
+    }
+*/
+    @Override
+    @Test
+    @Ignore
+    public void scheduleDeviceMethodSucceed() throws IOException, IotHubException, InterruptedException
+    {
+    }
+
+    @Override
+    @Test
+    @Ignore
+    public void mixScheduleInFutureSucceed() throws IOException, IotHubException, InterruptedException
+    {
+    }
+
+    @Override
+    @Test
+    public void cancelScheduleDeviceMethodSucceed() throws IOException, IotHubException, InterruptedException
+    {
+
     }
 }
