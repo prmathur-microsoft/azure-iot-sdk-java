@@ -16,6 +16,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import java.util.Collection;
 
+import org.junit.Ignore;
+@Ignore
 @RunWith(Parameterized.class)
 public class ServiceClientITonAndroid extends ServiceClientCommon
 {

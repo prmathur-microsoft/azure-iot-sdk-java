@@ -23,7 +23,9 @@ import org.junit.runners.Parameterized;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collection;
+import org.junit.Ignore;
 
+@Ignore
 @RunWith(Parameterized.class)
 public class DeviceTwinITonAndroid extends DeviceTwinCommon
 {

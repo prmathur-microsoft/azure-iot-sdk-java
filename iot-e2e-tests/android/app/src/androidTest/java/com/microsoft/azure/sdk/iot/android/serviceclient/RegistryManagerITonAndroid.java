@@ -14,6 +14,8 @@ import org.junit.Rule;
 
 import java.io.IOException;
 
+import org.junit.Ignore;
+@Ignore
 public class RegistryManagerITonAndroid extends RegistryManagerCommon
 {
     @Rule

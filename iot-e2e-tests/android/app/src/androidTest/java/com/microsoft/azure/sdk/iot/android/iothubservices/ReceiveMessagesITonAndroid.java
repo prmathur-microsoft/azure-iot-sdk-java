@@ -23,6 +23,8 @@ import java.net.URISyntaxException;
 import java.security.GeneralSecurityException;
 import java.util.Collection;
 
+import org.junit.Ignore;
+@Ignore
 @RunWith(Parameterized.class)
 public class ReceiveMessagesITonAndroid extends ReceiveMessagesCommon
 {

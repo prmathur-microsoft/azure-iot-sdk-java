@@ -14,6 +14,8 @@ import com.microsoft.azure.sdk.iot.common.iothubservices.TransportClientCommon;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 
+import org.junit.Ignore;
+@Ignore
 public class TransportClientITonAndroid extends TransportClientCommon
 {
     @Rule

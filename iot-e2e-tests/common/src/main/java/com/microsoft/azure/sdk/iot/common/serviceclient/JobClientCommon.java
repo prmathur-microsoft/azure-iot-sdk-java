@@ -314,7 +314,7 @@ public class JobClientCommon
                             jobExceptions.put(jobId, new Exception("Scheduled job did not finish with status 'completed' but with " + jobResult.getJobStatus()));
                         }
                     }
-                    catch (IotHubException | IOException |InterruptedException e)
+                    catch (Exception e)
                     {
                         jobExceptions.put(jobId, e);
                         System.out.println("Adding to job exceptions...");

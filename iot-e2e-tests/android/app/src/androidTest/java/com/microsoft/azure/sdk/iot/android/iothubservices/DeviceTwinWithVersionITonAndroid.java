@@ -14,7 +14,8 @@ import org.junit.Ignore;
 import org.junit.Rule;
 
 import java.io.IOException;
-
+import org.junit.Ignore;
+@Ignore
 public class DeviceTwinWithVersionITonAndroid extends DeviceTwinWithVersionCommon
 {
     @Rule

@@ -28,6 +28,8 @@ import java.util.Collection;
 import com.microsoft.appcenter.espresso.Factory;
 import com.microsoft.appcenter.espresso.ReportHelper;
 
+import org.junit.Ignore;
+@Ignore
 @RunWith(Parameterized.class)
 public class SendMessagesITonAndroid extends SendMessagesCommon
 {

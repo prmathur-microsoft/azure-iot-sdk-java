@@ -29,6 +29,7 @@ import java.net.URISyntaxException;
 import java.security.GeneralSecurityException;
 import java.util.Collection;
 
+@Ignore
 @RunWith(Parameterized.class)
 public class DeviceMethodITonAndroid extends DeviceMethodCommon
 {
