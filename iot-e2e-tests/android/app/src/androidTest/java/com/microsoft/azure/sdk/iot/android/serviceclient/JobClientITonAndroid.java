@@ -42,6 +42,7 @@ public class JobClientITonAndroid extends JobClientCommon
 
     }
 */
+/*
     @Override
     @Test
     @Ignore
@@ -62,4 +63,5 @@ public class JobClientITonAndroid extends JobClientCommon
     {
 
     }
+    */
 }
