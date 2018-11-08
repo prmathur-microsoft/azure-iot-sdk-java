@@ -30,6 +30,10 @@ import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.SAS;
 import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.SELF_SIGNED;
 import static junit.framework.TestCase.fail;
 
+/**
+ * Utility functions, setup and teardown for all D2C telemetry integration tests. This class should not contain any tests,
+ * but any child class should.
+ */
 public class SendMessagesCommon extends MethodNameLoggingIntegrationTest
 {
     //How much sequential connections each device will open and close in the multithreaded test.
@@ -376,7 +380,7 @@ public class SendMessagesCommon extends MethodNameLoggingIntegrationTest
         }
     }
 
-    public static void tearDown(String[] deviceIdsToDispose, String[][] moduleIdsToDispose) throws IOException, IotHubException
+    public static void tearDown(String[] deviceIdsToDispose, String[][] moduleIdsToDispose)
     {
         if (registryManager != null)
         {

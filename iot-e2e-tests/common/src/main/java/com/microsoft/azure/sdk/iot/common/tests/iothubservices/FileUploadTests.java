@@ -36,6 +36,10 @@ import static com.microsoft.azure.sdk.iot.device.IotHubStatusCode.OK;
 import static com.microsoft.azure.sdk.iot.device.IotHubStatusCode.OK_EMPTY;
 import static org.junit.Assert.*;
 
+/**
+ * Test class containing all tests to be run on JVM and android pertaining to FileUpload. Class needs to be extended
+ * in order to run these tests as that extended class handles setting connection strings and certificate generation
+ */
 public class FileUploadTests extends MethodNameLoggingIntegrationTest
 {
     // Max time to wait to see it on Hub

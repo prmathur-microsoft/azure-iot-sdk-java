@@ -19,6 +19,10 @@ import java.util.UUID;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test class containing all tests to be run on JVM and android pertaining to device CRUD. Class needs to be extended
+ * in order to run these tests as that extended class handles setting connection strings and certificate generation
+ */
 public class RegistryManagerTests
 {
     protected static String iotHubConnectionString = "";

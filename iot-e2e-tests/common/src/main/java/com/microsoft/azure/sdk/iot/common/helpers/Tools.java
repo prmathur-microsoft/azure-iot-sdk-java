@@ -10,6 +10,8 @@ import com.microsoft.azure.sdk.iot.service.exceptions.IotHubException;
 
 import java.io.IOException;
 
+import static org.junit.Assert.fail;
+
 public class Tools
 {
     public static String retrieveEnvironmentVariableValue(String environmentVariableName)
@@ -47,16 +49,32 @@ public class Tools
      * @throws IOException if deleting the device or module fails
      * @throws IotHubException if deleting the device or module fails
      */
-    public static void removeDevicesAndModules(RegistryManager registryManager, String[] deviceIdsToDispose, String[][] moduleIdsToDispose) throws IOException, IotHubException
+    public static void removeDevicesAndModules(RegistryManager registryManager, String[] deviceIdsToDispose, String[][] moduleIdsToDispose)
     {
-        for (int i = 0; i < moduleIdsToDispose.length; i++)
+        try
         {
-            registryManager.removeModule(moduleIdsToDispose[i][0], moduleIdsToDispose[i][1]);
+            for (int i = 0; i < moduleIdsToDispose.length; i++)
+            {
+                registryManager.removeModule(moduleIdsToDispose[i][0], moduleIdsToDispose[i][1]);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            fail("Failed to remove modules: " + e.getMessage());
         }
 
-        for (int i = 0; i < deviceIdsToDispose.length; i++)
+        try
         {
-            registryManager.removeDevice(deviceIdsToDispose[i]);
+            for (int i = 0; i < deviceIdsToDispose.length; i++)
+            {
+                registryManager.removeDevice(deviceIdsToDispose[i]);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            fail("Failed to remove devices: " + e.getMessage());
         }
     }
 }

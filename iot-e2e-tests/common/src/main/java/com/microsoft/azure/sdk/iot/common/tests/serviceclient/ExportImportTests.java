@@ -30,6 +30,10 @@ import java.util.*;
 
 import static junit.framework.TestCase.fail;
 
+/**
+ * Test class containing all tests to be run on JVM and android pertaining to Export and Import jobs. Class needs to be extended
+ * in order to run these tests as that extended class handles setting connection strings and certificate generation
+ */
 public class ExportImportTests
 {
     private static final long IMPORT_EXPORT_TEST_TIMEOUT = 8 * 60 * 1000; //3 minutes

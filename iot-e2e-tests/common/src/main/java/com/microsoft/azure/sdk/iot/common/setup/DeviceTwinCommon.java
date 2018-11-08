@@ -36,6 +36,10 @@ import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.SELF_S
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.*;
 
+/**
+ * Utility functions, setup and teardown for all device twin integration tests. This class should not contain any tests,
+ * but any child class should.
+ */
 public class DeviceTwinCommon extends MethodNameLoggingIntegrationTest
 {
     // Max time to wait to see it on Hub
@@ -463,7 +467,7 @@ public class DeviceTwinCommon extends MethodNameLoggingIntegrationTest
         }
     }
 
-    public static void tearDown(String[] deviceIdsToDispose, String[][] moduleIdsToDispose) throws IOException, IotHubException
+    public static void tearDown(String[] deviceIdsToDispose, String[][] moduleIdsToDispose)
     {
         if (registryManager != null)
         {
@@ -525,7 +529,8 @@ public class DeviceTwinCommon extends MethodNameLoggingIntegrationTest
         assertEquals(STATUS.SUCCESS, deviceUnderTest.deviceTwinStatus);
     }
 
-    public void sendReportedPropertiesAndVerify(int numOfProp) throws IOException, IotHubException, InterruptedException {
+    public void sendReportedPropertiesAndVerify(int numOfProp) throws IOException, IotHubException, InterruptedException
+    {
         // Act
         // send max_prop RP all at once
         deviceUnderTest.dCDeviceForTwin.createNewReportedProperties(numOfProp);
@@ -592,19 +597,6 @@ public class DeviceTwinCommon extends MethodNameLoggingIntegrationTest
         waitAndVerifyDesiredPropertyCallback(PROPERTY_VALUE_UPDATE, false);
     }
 
-    public void setDesiredProperties(String queryProperty, String queryPropertyValue, int numberOfDevices) throws IOException, IotHubException
-    {
-        for (int i = 0; i < numberOfDevices; i++)
-        {
-            Set<Pair> desiredProperties = new HashSet<>();
-            desiredProperties.add(new Pair(queryProperty, queryPropertyValue));
-            devicesUnderTest[i].sCDeviceForTwin.setDesiredProperties(desiredProperties);
-
-            sCDeviceTwin.updateTwin(devicesUnderTest[i].sCDeviceForTwin);
-            devicesUnderTest[i].sCDeviceForTwin.clearTwin();
-        }
-    }
-
     public void setConnectionStatusCallBack(final List actualStatusUpdates)
     {
         IotHubConnectionStatusChangeCallback connectionStatusUpdateCallback = new IotHubConnectionStatusChangeCallback()
@@ -617,102 +609,6 @@ public class DeviceTwinCommon extends MethodNameLoggingIntegrationTest
         };
 
         this.internalClient.registerConnectionStatusChangeCallback(connectionStatusUpdateCallback, null);
-    }
-
-    public void errorInjectionSendReportedPropertiesFlow(Message errorInjectionMessage) throws Exception
-    {
-        // Arrange
-        final List<IotHubConnectionStatus> actualStatusUpdates = new ArrayList<>();
-        setConnectionStatusCallBack(actualStatusUpdates);
-        sendReportedPropertiesAndVerify(1);
-
-        // Act
-        errorInjectionMessage.setExpiryTime(100);
-        MessageAndResult errorInjectionMsgAndRet = new MessageAndResult(errorInjectionMessage, null);
-        IotHubServicesCommon.sendMessageAndWaitForResponse(internalClient,
-                errorInjectionMsgAndRet,
-                RETRY_MILLISECONDS,
-                SEND_TIMEOUT_MILLISECONDS,
-                this.testInstance.protocol);
-
-        // Assert
-        IotHubServicesCommon.waitForStabilizedConnection(actualStatusUpdates, ERROR_INJECTION_WAIT_TIMEOUT);
-        // add one new reported property
-        deviceUnderTest.dCDeviceForTwin.createNewReportedProperties(1);
-        internalClient.sendReportedProperties(deviceUnderTest.dCDeviceForTwin.getReportedProp());
-
-        waitAndVerifyTwinStatusBecomesSuccess();
-        // verify if they are received by SC
-        readReportedPropertiesAndVerify(deviceUnderTest, PROPERTY_KEY, PROPERTY_VALUE, 2);
-    }
-
-    public void errorInjectionSubscribeToDesiredPropertiesFlow(Message errorInjectionMessage) throws Exception
-    {
-        // Arrange
-        final List<IotHubConnectionStatus> actualStatusUpdates = new ArrayList<>();
-        setConnectionStatusCallBack(actualStatusUpdates);
-        subscribeToDesiredPropertiesAndVerify(1);
-
-        // Act
-        errorInjectionMessage.setExpiryTime(100);
-        MessageAndResult errorInjectionMsgAndRet = new MessageAndResult(errorInjectionMessage, null);
-        IotHubServicesCommon.sendMessageAndWaitForResponse(internalClient,
-                errorInjectionMsgAndRet,
-                RETRY_MILLISECONDS,
-                SEND_TIMEOUT_MILLISECONDS,
-                this.testInstance.protocol);
-
-        // Assert
-        IotHubServicesCommon.waitForStabilizedConnection(actualStatusUpdates, ERROR_INJECTION_WAIT_TIMEOUT);
-        deviceUnderTest.dCDeviceForTwin.propertyStateList.get(0).callBackTriggered = false;
-        assertEquals(1, deviceUnderTest.sCDeviceForTwin.getDesiredProperties().size());
-        Set<Pair> dp = new HashSet<>();
-        Pair p = deviceUnderTest.sCDeviceForTwin.getDesiredProperties().iterator().next();
-        p.setValue(PROPERTY_VALUE_UPDATE2 + UUID.randomUUID());
-        dp.add(p);
-        deviceUnderTest.sCDeviceForTwin.setDesiredProperties(dp);
-
-        sCDeviceTwin.updateTwin(deviceUnderTest.sCDeviceForTwin);
-
-        waitAndVerifyTwinStatusBecomesSuccess();
-        waitAndVerifyDesiredPropertyCallback(PROPERTY_VALUE_UPDATE2, false);
-    }
-
-    public void errorInjectionGetDeviceTwinFlow(Message errorInjectionMessage) throws Exception
-    {
-        // Arrange
-        final List<IotHubConnectionStatus> actualStatusUpdates = new ArrayList<>();
-        setConnectionStatusCallBack(actualStatusUpdates);
-        testGetDeviceTwin();
-
-        // Act
-        errorInjectionMessage.setExpiryTime(100);
-        MessageAndResult errorInjectionMsgAndRet = new MessageAndResult(errorInjectionMessage, null);
-        IotHubServicesCommon.sendMessageAndWaitForResponse(internalClient,
-                errorInjectionMsgAndRet,
-                RETRY_MILLISECONDS,
-                SEND_TIMEOUT_MILLISECONDS,
-                this.testInstance.protocol);
-
-        // Assert
-        IotHubServicesCommon.waitForStabilizedConnection(actualStatusUpdates, ERROR_INJECTION_WAIT_TIMEOUT);
-        for (PropertyState propertyState : deviceUnderTest.dCDeviceForTwin.propertyStateList)
-        {
-            propertyState.callBackTriggered = false;
-            propertyState.propertyNewVersion = -1;
-        }
-
-        if (internalClient instanceof DeviceClient)
-        {
-            ((DeviceClient)internalClient).getDeviceTwin();
-        }
-        else
-        {
-            ((ModuleClient)internalClient).getTwin();
-        }
-
-        waitAndVerifyTwinStatusBecomesSuccess();
-        waitAndVerifyDesiredPropertyCallback(PROPERTY_VALUE_UPDATE, true);
     }
 
     public void testGetDeviceTwin() throws IOException, InterruptedException, IotHubException

@@ -6,7 +6,7 @@
 package com.microsoft.azure.sdk.iot.common.setup;
 
 import com.microsoft.azure.sdk.iot.common.helpers.*;
-import com.microsoft.azure.sdk.iot.common.tests.iothubservices.DeviceMethodTests;
+import com.microsoft.azure.sdk.iot.common.tests.iothubservices.methods.DeviceMethodTests;
 import com.microsoft.azure.sdk.iot.device.*;
 import com.microsoft.azure.sdk.iot.device.exceptions.ModuleClientException;
 import com.microsoft.azure.sdk.iot.device.transport.IotHubConnectionStatus;
@@ -38,6 +38,10 @@ import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.SAS;
 import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.SELF_SIGNED;
 import static org.junit.Assert.*;
 
+/**
+ * Utility functions, setup and teardown for all device method integration tests. This class should not contain any tests,
+ * but any child class should.
+ */
 public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
 {
     public static final String IOT_HUB_CONNECTION_STRING_ENV_VAR_NAME = "IOTHUB_CONNECTION_STRING";
@@ -325,14 +329,22 @@ public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
         }
     }
 
-    public static void tearDown(String[] deviceIdsToDispose, String[][] moduleIdsToDispose, ArrayList<DeviceTestManager> deviceTestManagers) throws Exception
+    public static void tearDown(String[] deviceIdsToDispose, String[][] moduleIdsToDispose, ArrayList<DeviceTestManager> deviceTestManagers)
     {
-        for (DeviceTestManager deviceTestManager : deviceTestManagers)
+        try
         {
-            if (deviceTestManager != null)
+            for (DeviceTestManager deviceTestManager : deviceTestManagers)
             {
-                deviceTestManager.stop();
+                if (deviceTestManager != null)
+                {
+                    deviceTestManager.stop();
+                }
             }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            fail("Failed to stop device test managers");
         }
 
         Tools.removeDevicesAndModules(registryManager, deviceIdsToDispose, moduleIdsToDispose);

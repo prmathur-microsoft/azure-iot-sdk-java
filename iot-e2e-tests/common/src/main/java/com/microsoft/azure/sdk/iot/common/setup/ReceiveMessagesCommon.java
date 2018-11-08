@@ -7,7 +7,7 @@ package com.microsoft.azure.sdk.iot.common.setup;
 
 import com.microsoft.azure.sdk.iot.common.helpers.*;
 import com.microsoft.azure.sdk.iot.common.helpers.Tools;
-import com.microsoft.azure.sdk.iot.common.tests.iothubservices.ReceiveMessagesTests;
+import com.microsoft.azure.sdk.iot.common.tests.iothubservices.telemetry.ReceiveMessagesTests;
 import com.microsoft.azure.sdk.iot.device.*;
 import com.microsoft.azure.sdk.iot.device.exceptions.ModuleClientException;
 import com.microsoft.azure.sdk.iot.device.transport.IotHubConnectionStatus;
@@ -29,6 +29,10 @@ import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.SELF_S
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+/**
+ * Utility functions, setup and teardown for all C2D telemetry integration tests. This class should not contain any tests,
+ * but any child class should.
+ */
 public class ReceiveMessagesCommon extends MethodNameLoggingIntegrationTest
 {
     public static final long DEFAULT_TEST_TIMEOUT = 3 * 60 * 1000;
@@ -197,7 +201,7 @@ public class ReceiveMessagesCommon extends MethodNameLoggingIntegrationTest
         }
     }
 
-    public static void tearDown(String[] deviceIdsToDispose, String[][] moduleIdsToDispose) throws IOException, IotHubException
+    public static void tearDown(String[] deviceIdsToDispose, String[][] moduleIdsToDispose)
     {
         if (registryManager != null)
         {

@@ -32,7 +32,8 @@ import java.util.concurrent.*;
 import static org.junit.Assert.*;
 
 /**
- * Integration E2E test for Job Client on the service client.
+ * Test class containing all tests to be run on JVM and android pertaining to method and twin jobs. Class needs to be extended
+ * in order to run these tests as that extended class handles setting connection strings and certificate generation
  */
 @Ignore
 public class JobClientTests

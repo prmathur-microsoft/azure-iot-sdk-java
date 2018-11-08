@@ -20,6 +20,10 @@ import java.util.concurrent.CompletableFuture;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test class containing all tests to be run on JVM and android pertaining to C2D communication using the service client. Class needs to be extended
+ * in order to run these tests as that extended class handles setting connection strings and certificate generation
+ */
 public class ServiceClientTests extends MethodNameLoggingIntegrationTest
 {
     protected static String iotHubConnectionString = "";
