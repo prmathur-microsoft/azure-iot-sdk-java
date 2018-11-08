@@ -18,7 +18,10 @@ import com.microsoft.azure.sdk.iot.service.devicetwin.DeviceMethod;
 import com.microsoft.azure.sdk.iot.service.devicetwin.MethodResult;
 import com.microsoft.azure.sdk.iot.service.exceptions.IotHubException;
 import junit.framework.TestCase;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -33,9 +36,7 @@ import java.util.concurrent.TimeUnit;
 import static com.microsoft.azure.sdk.iot.device.IotHubClientProtocol.*;
 import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.SAS;
 import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.SELF_SIGNED;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
 {

@@ -10,12 +10,14 @@ import com.microsoft.azure.sdk.iot.service.*;
 import com.microsoft.azure.sdk.iot.service.exceptions.IotHubException;
 import org.junit.Test;
 import org.junit.runners.Parameterized;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+
 import static org.junit.Assert.*;
 
 public class ServiceClientTests extends MethodNameLoggingIntegrationTest

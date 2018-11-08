@@ -19,9 +19,10 @@ import com.microsoft.azure.sdk.iot.service.jobs.JobClient;
 import com.microsoft.azure.sdk.iot.service.jobs.JobResult;
 import com.microsoft.azure.sdk.iot.service.jobs.JobStatus;
 import com.microsoft.azure.sdk.iot.service.jobs.JobType;
-import org.junit.*;
-import com.microsoft.azure.sdk.iot.common.helpers.DeviceEmulator;
-import com.microsoft.azure.sdk.iot.common.helpers.DeviceTestManager;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

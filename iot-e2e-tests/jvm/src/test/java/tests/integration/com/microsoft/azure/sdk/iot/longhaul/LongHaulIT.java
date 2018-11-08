@@ -5,8 +5,10 @@
 
 package tests.integration.com.microsoft.azure.sdk.iot.longhaul;
 
+import com.microsoft.azure.sdk.iot.common.helpers.DeviceConnectionString;
 import com.microsoft.azure.sdk.iot.common.helpers.EventCallback;
 import com.microsoft.azure.sdk.iot.common.helpers.Success;
+import com.microsoft.azure.sdk.iot.common.helpers.Tools;
 import com.microsoft.azure.sdk.iot.device.*;
 import com.microsoft.azure.sdk.iot.service.Device;
 import com.microsoft.azure.sdk.iot.service.IotHubServiceClientProtocol;
@@ -16,8 +18,6 @@ import com.microsoft.azure.sdk.iot.service.exceptions.IotHubException;
 import org.junit.*;
 import org.junit.experimental.ParallelComputer;
 import org.junit.runner.JUnitCore;
-import com.microsoft.azure.sdk.iot.common.helpers.Tools;
-import com.microsoft.azure.sdk.iot.common.helpers.DeviceConnectionString;
 
 import java.io.IOException;
 import java.lang.reflect.Field;

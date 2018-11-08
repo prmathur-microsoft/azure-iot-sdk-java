@@ -5,31 +5,22 @@
 
 package com.microsoft.azure.sdk.iot.common.tests.iothubservices;
 
-import com.microsoft.azure.sdk.iot.common.helpers.*;
+import com.microsoft.azure.sdk.iot.common.helpers.ErrorInjectionHelper;
 import com.microsoft.azure.sdk.iot.common.setup.ReceiveMessagesCommon;
-import com.microsoft.azure.sdk.iot.device.*;
-import com.microsoft.azure.sdk.iot.device.Message;
-import com.microsoft.azure.sdk.iot.device.exceptions.ModuleClientException;
-import com.microsoft.azure.sdk.iot.device.transport.IotHubConnectionStatus;
-import com.microsoft.azure.sdk.iot.service.*;
+import com.microsoft.azure.sdk.iot.device.InternalClient;
+import com.microsoft.azure.sdk.iot.device.IotHubClientProtocol;
+import com.microsoft.azure.sdk.iot.service.Device;
+import com.microsoft.azure.sdk.iot.service.Module;
 import com.microsoft.azure.sdk.iot.service.auth.AuthenticationType;
 import com.microsoft.azure.sdk.iot.service.exceptions.IotHubException;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.security.GeneralSecurityException;
-import java.util.*;
 
 import static com.microsoft.azure.sdk.iot.common.helpers.ErrorInjectionHelper.DefaultDelayInSec;
 import static com.microsoft.azure.sdk.iot.common.helpers.ErrorInjectionHelper.DefaultDurationInSec;
 import static com.microsoft.azure.sdk.iot.device.IotHubClientProtocol.*;
 import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.*;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 public class ReceiveMessagesErrorInjectionTests extends ReceiveMessagesCommon
 {

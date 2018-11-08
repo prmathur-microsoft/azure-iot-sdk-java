@@ -13,21 +13,21 @@ import com.microsoft.azure.sdk.iot.device.*;
 import com.microsoft.azure.sdk.iot.service.Device;
 import com.microsoft.azure.sdk.iot.service.auth.AuthenticationType;
 import com.microsoft.azure.sdk.iot.service.exceptions.IotHubException;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import static com.microsoft.azure.sdk.iot.common.helpers.SasTokenGenerator.generateSasTokenForIotDevice;
 import static com.microsoft.azure.sdk.iot.device.IotHubClientProtocol.*;
-import static com.microsoft.azure.sdk.iot.device.IotHubClientProtocol.AMQPS;
-import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.CERTIFICATE_AUTHORITY;
-import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.SAS;
-import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.SELF_SIGNED;
+import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.*;
 import static junit.framework.TestCase.fail;
 
 public class SendMessagesTests extends SendMessagesCommon

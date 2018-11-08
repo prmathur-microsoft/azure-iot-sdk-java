@@ -9,6 +9,7 @@ import com.microsoft.azure.sdk.iot.common.helpers.TestConstants;
 import com.microsoft.azure.sdk.iot.common.helpers.Tools;
 import com.microsoft.azure.sdk.iot.common.tests.serviceclient.RegistryManagerTests;
 import org.junit.BeforeClass;
+
 import java.io.IOException;
 
 public class RegistryManagerIT extends RegistryManagerTests

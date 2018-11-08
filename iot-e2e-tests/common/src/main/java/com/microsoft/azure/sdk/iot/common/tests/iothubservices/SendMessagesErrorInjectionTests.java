@@ -17,17 +17,18 @@ import com.microsoft.azure.sdk.iot.device.transport.NoRetry;
 import com.microsoft.azure.sdk.iot.service.Device;
 import com.microsoft.azure.sdk.iot.service.auth.AuthenticationType;
 import com.microsoft.azure.sdk.iot.service.exceptions.IotHubException;
-import org.junit.*;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.UUID;
 
 import static com.microsoft.azure.sdk.iot.common.helpers.IotHubServicesCommon.sendMessagesExpectingConnectionStatusChangeUpdate;
 import static com.microsoft.azure.sdk.iot.common.helpers.IotHubServicesCommon.sendMessagesExpectingUnrecoverableConnectionLossAndTimeout;
 import static com.microsoft.azure.sdk.iot.device.IotHubClientProtocol.*;
-import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.*;
-import static junit.framework.TestCase.fail;
+import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.SAS;
+import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.SELF_SIGNED;
 
 public class SendMessagesErrorInjectionTests extends SendMessagesCommon
 {

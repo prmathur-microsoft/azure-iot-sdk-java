@@ -5,6 +5,7 @@
 
 package com.microsoft.azure.sdk.iot.common.tests.iothubservices;
 
+import com.microsoft.azure.sdk.iot.common.helpers.DeviceConnectionString;
 import com.microsoft.azure.sdk.iot.common.helpers.IotHubServicesCommon;
 import com.microsoft.azure.sdk.iot.common.helpers.MethodNameLoggingIntegrationTest;
 import com.microsoft.azure.sdk.iot.device.DeviceClient;
@@ -18,8 +19,10 @@ import com.microsoft.azure.sdk.iot.service.devicetwin.DeviceTwin;
 import com.microsoft.azure.sdk.iot.service.devicetwin.DeviceTwinDevice;
 import com.microsoft.azure.sdk.iot.service.devicetwin.Pair;
 import com.microsoft.azure.sdk.iot.service.exceptions.IotHubException;
-import org.junit.*;
-import com.microsoft.azure.sdk.iot.common.helpers.DeviceConnectionString;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

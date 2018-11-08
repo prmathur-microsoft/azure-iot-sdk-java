@@ -5,31 +5,18 @@
 
 package com.microsoft.azure.sdk.iot.common.tests.iothubservices;
 
-import com.microsoft.azure.sdk.iot.common.helpers.*;
+import com.microsoft.azure.sdk.iot.common.helpers.DeviceTestManager;
+import com.microsoft.azure.sdk.iot.common.helpers.ErrorInjectionHelper;
 import com.microsoft.azure.sdk.iot.common.setup.DeviceMethodCommon;
-import com.microsoft.azure.sdk.iot.device.*;
-import com.microsoft.azure.sdk.iot.device.exceptions.ModuleClientException;
-import com.microsoft.azure.sdk.iot.device.transport.IotHubConnectionStatus;
+import com.microsoft.azure.sdk.iot.device.IotHubClientProtocol;
 import com.microsoft.azure.sdk.iot.service.Device;
 import com.microsoft.azure.sdk.iot.service.Module;
-import com.microsoft.azure.sdk.iot.service.RegistryManager;
 import com.microsoft.azure.sdk.iot.service.auth.AuthenticationType;
-import com.microsoft.azure.sdk.iot.service.devicetwin.DeviceMethod;
-import com.microsoft.azure.sdk.iot.service.devicetwin.MethodResult;
-import com.microsoft.azure.sdk.iot.service.exceptions.IotHubException;
-import org.junit.*;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.security.GeneralSecurityException;
-import java.util.*;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
+import org.junit.Test;
 
 import static com.microsoft.azure.sdk.iot.device.IotHubClientProtocol.*;
 import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.SAS;
 import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.SELF_SIGNED;
-import static org.junit.Assert.*;
 
 /**
  * Integration E2E test for Device Method on the service client.

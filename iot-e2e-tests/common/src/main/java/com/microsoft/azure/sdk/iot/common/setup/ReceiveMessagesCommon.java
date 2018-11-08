@@ -24,7 +24,6 @@ import java.security.GeneralSecurityException;
 import java.util.*;
 
 import static com.microsoft.azure.sdk.iot.device.IotHubClientProtocol.*;
-import static com.microsoft.azure.sdk.iot.device.IotHubClientProtocol.AMQPS;
 import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.SAS;
 import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.SELF_SIGNED;
 import static org.junit.Assert.assertTrue;

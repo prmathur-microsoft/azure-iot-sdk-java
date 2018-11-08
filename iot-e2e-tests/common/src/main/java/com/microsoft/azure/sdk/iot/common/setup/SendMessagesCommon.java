@@ -6,7 +6,6 @@
 package com.microsoft.azure.sdk.iot.common.setup;
 
 import com.microsoft.azure.sdk.iot.common.helpers.*;
-import com.microsoft.azure.sdk.iot.common.helpers.MethodNameLoggingIntegrationTest;
 import com.microsoft.azure.sdk.iot.device.*;
 import com.microsoft.azure.sdk.iot.device.exceptions.ModuleClientException;
 import com.microsoft.azure.sdk.iot.service.Device;
@@ -27,7 +26,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.microsoft.azure.sdk.iot.device.IotHubClientProtocol.*;
-import static com.microsoft.azure.sdk.iot.device.IotHubClientProtocol.AMQPS;
 import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.SAS;
 import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.SELF_SIGNED;
 import static junit.framework.TestCase.fail;
@@ -106,7 +104,6 @@ public class SendMessagesCommon extends MethodNameLoggingIntegrationTest
 
     public static Collection inputsCommon(ClientType clientType, String publicKeyCert, String privateKey, String x509Thumbprint) throws IOException, IotHubException, GeneralSecurityException, URISyntaxException, ModuleClientException, InterruptedException
     {
-        System.out.println("InputsCommon called!");
         registryManager = RegistryManager.createFromConnectionString(iotHubConnectionString);
         String uuid = UUID.randomUUID().toString();
         String deviceId = "java-device-client-e2e-test-send-messages".concat("-" + uuid);

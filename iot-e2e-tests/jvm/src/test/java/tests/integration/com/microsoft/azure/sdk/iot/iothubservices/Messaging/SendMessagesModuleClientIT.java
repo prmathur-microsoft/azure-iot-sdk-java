@@ -5,10 +5,10 @@
 
 package tests.integration.com.microsoft.azure.sdk.iot.iothubservices.Messaging;
 
-import com.microsoft.azure.sdk.iot.common.helpers.TestConstants;
-import com.microsoft.azure.sdk.iot.common.helpers.X509Cert;
 import com.microsoft.azure.sdk.iot.common.helpers.ClientType;
+import com.microsoft.azure.sdk.iot.common.helpers.TestConstants;
 import com.microsoft.azure.sdk.iot.common.helpers.Tools;
+import com.microsoft.azure.sdk.iot.common.helpers.X509Cert;
 import com.microsoft.azure.sdk.iot.common.setup.SendMessagesCommon;
 import com.microsoft.azure.sdk.iot.common.tests.iothubservices.SendMessagesTests;
 import com.microsoft.azure.sdk.iot.device.InternalClient;
@@ -24,9 +24,7 @@ import org.junit.runners.Parameterized;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import static org.junit.Assert.fail;
 

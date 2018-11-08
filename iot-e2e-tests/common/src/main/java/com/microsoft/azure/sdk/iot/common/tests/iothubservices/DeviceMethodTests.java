@@ -5,22 +5,25 @@
 
 package com.microsoft.azure.sdk.iot.common.tests.iothubservices;
 
+import com.microsoft.azure.sdk.iot.common.helpers.DeviceEmulator;
+import com.microsoft.azure.sdk.iot.common.helpers.DeviceTestManager;
 import com.microsoft.azure.sdk.iot.common.setup.DeviceMethodCommon;
-import com.microsoft.azure.sdk.iot.device.*;
+import com.microsoft.azure.sdk.iot.device.IotHubClientProtocol;
 import com.microsoft.azure.sdk.iot.service.Device;
 import com.microsoft.azure.sdk.iot.service.Module;
 import com.microsoft.azure.sdk.iot.service.auth.AuthenticationType;
 import com.microsoft.azure.sdk.iot.service.devicetwin.MethodResult;
 import com.microsoft.azure.sdk.iot.service.exceptions.IotHubGatewayTimeoutException;
 import com.microsoft.azure.sdk.iot.service.exceptions.IotHubNotFoundException;
-import org.junit.*;
-import com.microsoft.azure.sdk.iot.common.helpers.DeviceEmulator;
-import com.microsoft.azure.sdk.iot.common.helpers.DeviceTestManager;
+import org.junit.Assert;
+import org.junit.Test;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Integration E2E test for Methods scenarios using the service client and a module or device client.

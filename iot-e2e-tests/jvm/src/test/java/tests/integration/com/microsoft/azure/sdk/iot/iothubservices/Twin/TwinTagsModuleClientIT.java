@@ -10,7 +10,6 @@ import com.microsoft.azure.sdk.iot.common.helpers.TestConstants;
 import com.microsoft.azure.sdk.iot.common.helpers.Tools;
 import com.microsoft.azure.sdk.iot.common.helpers.X509Cert;
 import com.microsoft.azure.sdk.iot.common.setup.DeviceTwinCommon;
-import com.microsoft.azure.sdk.iot.common.tests.iothubservices.ReceiveMessagesTests;
 import com.microsoft.azure.sdk.iot.common.tests.iothubservices.TwinTagsTests;
 import com.microsoft.azure.sdk.iot.device.IotHubClientProtocol;
 import com.microsoft.azure.sdk.iot.device.exceptions.ModuleClientException;

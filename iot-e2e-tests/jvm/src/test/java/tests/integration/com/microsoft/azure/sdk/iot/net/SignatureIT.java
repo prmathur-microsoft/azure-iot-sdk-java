@@ -9,9 +9,7 @@ import com.microsoft.azure.sdk.iot.deps.util.Base64;
 import com.microsoft.azure.sdk.iot.device.auth.Signature;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 
 /** Integration tests for Signature. */
 public class SignatureIT

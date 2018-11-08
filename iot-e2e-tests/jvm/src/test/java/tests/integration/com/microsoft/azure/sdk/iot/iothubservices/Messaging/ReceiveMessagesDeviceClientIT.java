@@ -5,16 +5,16 @@
 
 package tests.integration.com.microsoft.azure.sdk.iot.iothubservices.Messaging;
 
-import com.microsoft.azure.sdk.iot.common.helpers.X509Cert;
-import com.microsoft.azure.sdk.iot.common.helpers.TestConstants;
 import com.microsoft.azure.sdk.iot.common.helpers.ClientType;
-import com.microsoft.azure.sdk.iot.common.setup.ReceiveMessagesCommon;
-import com.microsoft.azure.sdk.iot.common.tests.iothubservices.ReceiveMessagesTests;
-import com.microsoft.azure.sdk.iot.service.Module;
+import com.microsoft.azure.sdk.iot.common.helpers.TestConstants;
 import com.microsoft.azure.sdk.iot.common.helpers.Tools;
-import com.microsoft.azure.sdk.iot.device.*;
+import com.microsoft.azure.sdk.iot.common.helpers.X509Cert;
+import com.microsoft.azure.sdk.iot.common.tests.iothubservices.ReceiveMessagesTests;
+import com.microsoft.azure.sdk.iot.device.InternalClient;
+import com.microsoft.azure.sdk.iot.device.IotHubClientProtocol;
 import com.microsoft.azure.sdk.iot.device.exceptions.ModuleClientException;
 import com.microsoft.azure.sdk.iot.service.Device;
+import com.microsoft.azure.sdk.iot.service.Module;
 import com.microsoft.azure.sdk.iot.service.auth.AuthenticationType;
 import com.microsoft.azure.sdk.iot.service.exceptions.IotHubException;
 import org.junit.AfterClass;
