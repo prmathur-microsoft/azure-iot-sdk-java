@@ -40,7 +40,7 @@ import static org.junit.Assert.*;
 
 /**
  * Utility functions, setup and teardown for all device method integration tests. This class should not contain any tests,
- * but any child class should.
+ * but any children class should.
  */
 public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
 {
@@ -99,9 +99,13 @@ public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
 
         /* Add devices to the IoTHub */
         device = registryManager.addDevice(device);
-        module = registryManager.addModule(module);
         deviceX509 = registryManager.addDevice(deviceX509);
-        moduleX509 = registryManager.addModule(moduleX509);
+
+        if (clientType == ClientType.MODULE_CLIENT)
+        {
+            module = registryManager.addModule(module);
+            moduleX509 = registryManager.addModule(moduleX509);
+        }
 
         Thread.sleep(2000);
 
@@ -115,7 +119,7 @@ public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
                     DeviceClient deviceClient = new DeviceClient(registryManager.getDeviceConnectionString(device), protocol);
                     DeviceTestManager deviceClientSasTestManager = new DeviceTestManager(deviceClient);
                     deviceTestManagers.add(deviceClientSasTestManager);
-                    inputs.add(makeSubArray(deviceClientSasTestManager, protocol, SAS, "DeviceClient", device, null, devicesToDeleteAfterTestClassFinishes, modulesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint));
+                    inputs.add(makeSubArray(deviceClientSasTestManager, protocol, SAS, "DeviceClient", device, null, devicesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint));
                 }
                 else if (clientType == ClientType.MODULE_CLIENT)
                 {
@@ -123,7 +127,7 @@ public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
                     ModuleClient moduleClient = new ModuleClient(registryManager.getDeviceConnectionString(device) + ";ModuleId=" + module.getId(), protocol);
                     DeviceTestManager moduleClientSasTestManager = new DeviceTestManager(moduleClient);
                     deviceTestManagers.add(moduleClientSasTestManager);
-                    inputs.add(makeSubArray(moduleClientSasTestManager, protocol, SAS, "ModuleClient", device, module, devicesToDeleteAfterTestClassFinishes, modulesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint));
+                    inputs.add(makeSubArray(moduleClientSasTestManager, protocol, SAS, "ModuleClient", device, module, modulesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint));
                 }
 
                 if (protocol != MQTT_WS && protocol != AMQPS_WS)
@@ -134,7 +138,7 @@ public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
                         DeviceClient deviceClientX509 = new DeviceClient(registryManager.getDeviceConnectionString(deviceX509), protocol, publicKeyCert, false, privateKey, false);
                         DeviceTestManager deviceClientX509TestManager = new DeviceTestManager(deviceClientX509);
                         deviceTestManagers.add(deviceClientX509TestManager);
-                        inputs.add(makeSubArray(deviceClientX509TestManager, protocol, SELF_SIGNED, "DeviceClient", deviceX509, null, devicesToDeleteAfterTestClassFinishes, modulesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint));
+                        inputs.add(makeSubArray(deviceClientX509TestManager, protocol, SELF_SIGNED, "DeviceClient", deviceX509, null, devicesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint));
                     }
                     else if (clientType == ClientType.MODULE_CLIENT)
                     {
@@ -142,7 +146,7 @@ public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
                         ModuleClient moduleClientX509 = new ModuleClient(registryManager.getDeviceConnectionString(deviceX509) + ";ModuleId=" + moduleX509.getId(), protocol, publicKeyCert, false, privateKey, false);
                         DeviceTestManager moduleClientX509TestManager = new DeviceTestManager(moduleClientX509);
                         deviceTestManagers.add(moduleClientX509TestManager);
-                        inputs.add(makeSubArray(moduleClientX509TestManager, protocol, SELF_SIGNED, "ModuleClient", deviceX509, moduleX509, devicesToDeleteAfterTestClassFinishes, modulesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint));
+                        inputs.add(makeSubArray(moduleClientX509TestManager, protocol, SELF_SIGNED, "ModuleClient", deviceX509, moduleX509, modulesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint));
                     }
                 }
             }
@@ -151,7 +155,7 @@ public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
         return inputs;
     }
 
-    public static Object[] makeSubArray(DeviceTestManager deviceTestManager, IotHubClientProtocol protocol, AuthenticationType authenticationType, String clientType, Device device, Module module, String[] devicesToDeleteAfterTestClassFinishes, String[][] modulesToDeleteAfterTestClassFinishes, String publicKeyCert, String privateKey, String x509Thumbprint)
+    public static Object[] makeSubArray(DeviceTestManager deviceTestManager, IotHubClientProtocol protocol, AuthenticationType authenticationType, String clientType, Device device, Module module, Object identitiesToDeleteAfterTestClassFinishes, String publicKeyCert, String privateKey, String x509Thumbprint)
     {
         Object[] inputSubArray = new Object[11];
         inputSubArray[0] = deviceTestManager;
@@ -160,17 +164,16 @@ public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
         inputSubArray[3] = clientType;
         inputSubArray[4] = device;
         inputSubArray[5] = module;
-        inputSubArray[6] = devicesToDeleteAfterTestClassFinishes;
-        inputSubArray[7] = modulesToDeleteAfterTestClassFinishes;
-        inputSubArray[8] = publicKeyCert;
-        inputSubArray[9] = privateKey;
-        inputSubArray[10] = x509Thumbprint;
+        inputSubArray[6] = identitiesToDeleteAfterTestClassFinishes;
+        inputSubArray[7] = publicKeyCert;
+        inputSubArray[8] = privateKey;
+        inputSubArray[9] = x509Thumbprint;
         return inputSubArray;
     }
 
-    public DeviceMethodCommon(DeviceTestManager deviceTestManager, IotHubClientProtocol protocol, AuthenticationType authenticationType, String clientType, Device device, Module module, String[] devicesToDeleteAfterTestClassFinishes, String[][] modulesToDeleteAfterTestClassFinishes, String publicKeyCert, String privateKey, String x509Thumbprint)
+    public DeviceMethodCommon(DeviceTestManager deviceTestManager, IotHubClientProtocol protocol, AuthenticationType authenticationType, String clientType, Device device, Module module, Object identitiesToDeleteAfterTestClassFinishes, String publicKeyCert, String privateKey, String x509Thumbprint)
     {
-        this.testInstance = new DeviceMethodITRunner(deviceTestManager, protocol, authenticationType, clientType, device, module, devicesToDeleteAfterTestClassFinishes, modulesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint);
+        this.testInstance = new DeviceMethodITRunner(deviceTestManager, protocol, authenticationType, clientType, device, module, identitiesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint);
     }
 
     public class DeviceMethodITRunner
@@ -181,13 +184,12 @@ public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
         public String clientType;
         public Device device;
         public Module module;
-        public String[] devicesToDeleteAfterTestClassFinishes;
-        public String[][] modulesToDeleteAfterTestClassFinishes;
+        public Object identitiesToDeleteAfterTestClassFinishes;
         public String publicKeyCert;
         public String privateKey;
         public String x509Thumbprint;
 
-        public DeviceMethodITRunner(DeviceTestManager deviceTestManager, IotHubClientProtocol protocol, AuthenticationType authenticationType, String clientType, Device device, Module module, String[] devicesToDeleteAfterTestClassFinishes, String[][] modulesToDeleteAfterTestClassFinishes, String publicKeyCert, String privateKey, String x509Thumbprint)
+        public DeviceMethodITRunner(DeviceTestManager deviceTestManager, IotHubClientProtocol protocol, AuthenticationType authenticationType, String clientType, Device device, Module module, Object identitiesToDeleteAfterTestClassFinishes, String publicKeyCert, String privateKey, String x509Thumbprint)
         {
             this.deviceTestManager = deviceTestManager;
             this.protocol = protocol;
@@ -195,8 +197,7 @@ public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
             this.clientType = clientType;
             this.device = device;
             this.module = module;
-            this.devicesToDeleteAfterTestClassFinishes = devicesToDeleteAfterTestClassFinishes;
-            this.modulesToDeleteAfterTestClassFinishes = modulesToDeleteAfterTestClassFinishes;
+            this.identitiesToDeleteAfterTestClassFinishes = identitiesToDeleteAfterTestClassFinishes;
             this.publicKeyCert = publicKeyCert;
             this.privateKey = privateKey;
             this.x509Thumbprint = x509Thumbprint;

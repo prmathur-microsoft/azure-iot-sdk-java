@@ -30,12 +30,11 @@ import static org.junit.Assert.fail;
 public class DeviceMethodErrInjDeviceJVMRunner extends DeviceMethodErrInjTests
 {
     static String[] devicesToDeleteAfterTestClassFinishes;
-    static String[][] modulesToDeleteAfterTestClassFinishes;
     static ArrayList<DeviceTestManager> testManagers;
 
-    public DeviceMethodErrInjDeviceJVMRunner(DeviceTestManager deviceTestManager, IotHubClientProtocol protocol, AuthenticationType authenticationType, String clientType, Device device, Module module, String[] devicesToDeleteAfterTestClassFinishes, String[][] modulesToDeleteAfterTestClassFinishes, String publicKeyCert, String privateKey, String x509Thumbprint)
+    public DeviceMethodErrInjDeviceJVMRunner(DeviceTestManager deviceTestManager, IotHubClientProtocol protocol, AuthenticationType authenticationType, String clientType, Device device, Module module, Object identitiesToDeleteAfterTestClassFinishes, String publicKeyCert, String privateKey, String x509Thumbprint)
     {
-        super(deviceTestManager, protocol, authenticationType, clientType, device, module, devicesToDeleteAfterTestClassFinishes, modulesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint);
+        super(deviceTestManager, protocol, authenticationType, clientType, device, module, identitiesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint);
     }
 
     //This function is run before even the @BeforeClass annotation, so it is used as the @BeforeClass method
@@ -58,13 +57,12 @@ public class DeviceMethodErrInjDeviceJVMRunner extends DeviceMethodErrInjTests
         }
 
         devicesToDeleteAfterTestClassFinishes = (String[])((Object[])inputs.toArray()[0])[6];
-        modulesToDeleteAfterTestClassFinishes = (String[][])((Object[])inputs.toArray()[0])[7];
         return inputs;
     }
 
     @AfterClass
     public static void cleanUpResources()
     {
-        tearDown(devicesToDeleteAfterTestClassFinishes, modulesToDeleteAfterTestClassFinishes, testManagers);
+        tearDown(devicesToDeleteAfterTestClassFinishes, null, testManagers);
     }
 }

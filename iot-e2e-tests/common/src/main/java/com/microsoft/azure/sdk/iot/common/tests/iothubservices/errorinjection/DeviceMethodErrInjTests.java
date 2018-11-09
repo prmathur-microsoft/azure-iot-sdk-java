@@ -24,9 +24,9 @@ import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.SELF_S
  */
 public class DeviceMethodErrInjTests extends DeviceMethodCommon
 {
-    public DeviceMethodErrInjTests(DeviceTestManager deviceTestManager, IotHubClientProtocol protocol, AuthenticationType authenticationType, String clientType, Device device, Module module, String[] devicesToDeleteAfterTestClassFinishes, String[][] modulesToDeleteAfterTestClassFinishes, String publicKeyCert, String privateKey, String x509Thumbprint)
+    public DeviceMethodErrInjTests(DeviceTestManager deviceTestManager, IotHubClientProtocol protocol, AuthenticationType authenticationType, String clientType, Device device, Module module, Object identitiesToDeleteAfterTestClassFinishes, String publicKeyCert, String privateKey, String x509Thumbprint)
     {
-        super(deviceTestManager, protocol, authenticationType, clientType, device, module, devicesToDeleteAfterTestClassFinishes, modulesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint);
+        super(deviceTestManager, protocol, authenticationType, clientType, device, module, identitiesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint);
     }
 
     @Test(timeout = ERROR_INJECTION_EXECUTION_TIMEOUT)
