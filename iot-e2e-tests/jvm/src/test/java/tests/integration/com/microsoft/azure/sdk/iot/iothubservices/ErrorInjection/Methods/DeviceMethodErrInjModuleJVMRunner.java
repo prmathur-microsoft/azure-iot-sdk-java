@@ -32,9 +32,9 @@ public class DeviceMethodErrInjModuleJVMRunner extends DeviceMethodErrInjTests
     static String[][] modulesToDeleteAfterTestClassFinishes;
     static ArrayList<DeviceTestManager> testManagers;
 
-    public DeviceMethodErrInjModuleJVMRunner(DeviceTestManager deviceTestManager, IotHubClientProtocol protocol, AuthenticationType authenticationType, String clientType, Device device, Module module, Object identitiesToDeleteAfterTestClassFinishes, String publicKeyCert, String privateKey, String x509Thumbprint)
+    public DeviceMethodErrInjModuleJVMRunner(DeviceTestManager deviceTestManager, IotHubClientProtocol protocol, AuthenticationType authenticationType, String clientType, Device device, Module module, String publicKeyCert, String privateKey, String x509Thumbprint)
     {
-        super(deviceTestManager, protocol, authenticationType, clientType, device, module, identitiesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint);
+        super(deviceTestManager, protocol, authenticationType, clientType, device, module, publicKeyCert, privateKey, x509Thumbprint);
     }
 
     //This function is run before even the @BeforeClass annotation, so it is used as the @BeforeClass method

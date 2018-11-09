@@ -31,9 +31,9 @@ import static org.junit.Assert.assertNotNull;
  */
 public class DeviceMethodTests extends DeviceMethodCommon
 {
-    public DeviceMethodTests(DeviceTestManager deviceTestManager, IotHubClientProtocol protocol, AuthenticationType authenticationType, String clientType, Device device, Module module, Object identitiesToDeleteAfterTestClassFinishes, String publicKeyCert, String privateKey, String x509Thumbprint)
+    public DeviceMethodTests(DeviceTestManager deviceTestManager, IotHubClientProtocol protocol, AuthenticationType authenticationType, String clientType, Device device, Module module, String publicKeyCert, String privateKey, String x509Thumbprint)
     {
-        super(deviceTestManager, protocol, authenticationType, clientType, device, module, identitiesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint);
+        super(deviceTestManager, protocol, authenticationType, clientType, device, module, publicKeyCert, privateKey, x509Thumbprint);
     }
 
     @Test(timeout=DEFAULT_TEST_TIMEOUT)
