@@ -258,7 +258,7 @@ public class QueryTwinTests extends DeviceTwinCommon
         assertEquals(1, continuedDeviceTwinDeviceQuery.size());
 
         // since order is not guaranteed, we cannot check that the third updated deviceTwinDevice is the third queried.
-        // Instead, all we can check is that each updated device twin device is in either the initial query or the continued query.
+        // Instead, all we can check is that each updated identity twin identity is in either the initial query or the continued query.
         ArrayList<String> expectedDeviceIds = new ArrayList<>();
         for (int deviceTwinDeviceIndex = 0; deviceTwinDeviceIndex < PAGE_SIZE + 1; deviceTwinDeviceIndex++)
         {

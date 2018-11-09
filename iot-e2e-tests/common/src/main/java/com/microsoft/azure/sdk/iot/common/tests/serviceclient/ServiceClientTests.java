@@ -72,12 +72,12 @@ public class ServiceClientTests extends MethodNameLoggingIntegrationTest
     {
         // Arrange
 
-        // We remove and recreate the device for a clean start
+        // We remove and recreate the identity for a clean start
         RegistryManager registryManager = RegistryManager.createFromConnectionString(iotHubConnectionString);
 
         try
         {
-            // We remove and recreate the device for a clean start
+            // We remove and recreate the identity for a clean start
             registryManager.removeDevice(deviceId);
         }
         catch (IOException|IotHubException e)

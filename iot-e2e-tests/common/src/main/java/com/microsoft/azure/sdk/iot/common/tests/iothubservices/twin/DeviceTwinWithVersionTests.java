@@ -172,7 +172,7 @@ public class DeviceTwinWithVersionTests extends MethodNameLoggingIntegrationTest
         // Destroy the service client
         sCDeviceTwin = null;
 
-        // Remove device from IoTHub
+        // Remove identity from IoTHub
         if (registryManager != null)
         {
             registryManager.close();
@@ -225,7 +225,7 @@ public class DeviceTwinWithVersionTests extends MethodNameLoggingIntegrationTest
         testDevice.deviceClient.sendReportedProperties(PROPERTIES);
 
         // assert
-        // test device client
+        // test identity client
         Thread.sleep(MAXIMUM_TIME_TO_WAIT_FOR_IOTHUB);
         while(testDevice.deviceTwinStatus == STATUS.UNKNOWN)
         {
@@ -295,7 +295,7 @@ public class DeviceTwinWithVersionTests extends MethodNameLoggingIntegrationTest
         testDevice.deviceClient.sendReportedProperties(newValues, 2);
 
         // assert
-        // test device client
+        // test identity client
         Thread.sleep(MAXIMUM_TIME_TO_WAIT_FOR_IOTHUB);
         while(testDevice.deviceTwinStatus == STATUS.UNKNOWN)
         {
@@ -371,7 +371,7 @@ public class DeviceTwinWithVersionTests extends MethodNameLoggingIntegrationTest
         testDevice.deviceClient.sendReportedProperties(newValues, 1);
 
         // assert
-        // test device client
+        // test identity client
         Thread.sleep(MAXIMUM_TIME_TO_WAIT_FOR_IOTHUB);
         while((testDevice.deviceTwinStatus != STATUS.BAD_ANSWER) && (testDevice.deviceTwinStatus != STATUS.IOTHUB_FAILURE))
         {
@@ -444,7 +444,7 @@ public class DeviceTwinWithVersionTests extends MethodNameLoggingIntegrationTest
         testDevice.deviceClient.sendReportedProperties(newValues, 3);
 
         // assert
-        // test device client
+        // test identity client
         Thread.sleep(MAXIMUM_TIME_TO_WAIT_FOR_IOTHUB);
         while((testDevice.deviceTwinStatus != STATUS.BAD_ANSWER) && (testDevice.deviceTwinStatus != STATUS.IOTHUB_FAILURE))
         {
@@ -485,7 +485,7 @@ public class DeviceTwinWithVersionTests extends MethodNameLoggingIntegrationTest
         testDevice.deviceClient.sendReportedProperties(PROPERTIES);
 
         // assert
-        // test device client
+        // test identity client
         Thread.sleep(MAXIMUM_TIME_TO_WAIT_FOR_IOTHUB);
         while(testDevice.deviceTwinStatus == STATUS.UNKNOWN)
         {
@@ -555,7 +555,7 @@ public class DeviceTwinWithVersionTests extends MethodNameLoggingIntegrationTest
         testDevice.deviceClient.sendReportedProperties(newValues, 2);
 
         // assert
-        // test device client
+        // test identity client
         Thread.sleep(MAXIMUM_TIME_TO_WAIT_FOR_IOTHUB);
         while(testDevice.deviceTwinStatus == STATUS.UNKNOWN)
         {
@@ -631,7 +631,7 @@ public class DeviceTwinWithVersionTests extends MethodNameLoggingIntegrationTest
         testDevice.deviceClient.sendReportedProperties(newValues, 1);
 
         // assert
-        // test device client
+        // test identity client
         Thread.sleep(MAXIMUM_TIME_TO_WAIT_FOR_IOTHUB);
         while((testDevice.deviceTwinStatus != STATUS.BAD_ANSWER) && (testDevice.deviceTwinStatus != STATUS.IOTHUB_FAILURE))
         {
@@ -704,7 +704,7 @@ public class DeviceTwinWithVersionTests extends MethodNameLoggingIntegrationTest
         testDevice.deviceClient.sendReportedProperties(newValues, 3);
 
         // assert
-        // test device client
+        // test identity client
         Thread.sleep(MAXIMUM_TIME_TO_WAIT_FOR_IOTHUB);
         while((testDevice.deviceTwinStatus != STATUS.BAD_ANSWER) && (testDevice.deviceTwinStatus != STATUS.IOTHUB_FAILURE))
         {
@@ -745,7 +745,7 @@ public class DeviceTwinWithVersionTests extends MethodNameLoggingIntegrationTest
         testDevice.deviceClient.sendReportedProperties(PROPERTIES);
 
         // assert
-        // test device client
+        // test identity client
         Thread.sleep(MAXIMUM_TIME_TO_WAIT_FOR_IOTHUB);
         while(testDevice.deviceTwinStatus == STATUS.UNKNOWN)
         {
@@ -815,7 +815,7 @@ public class DeviceTwinWithVersionTests extends MethodNameLoggingIntegrationTest
         testDevice.deviceClient.sendReportedProperties(newValues, 2);
 
         // assert
-        // test device client
+        // test identity client
         Thread.sleep(MAXIMUM_TIME_TO_WAIT_FOR_IOTHUB);
         while(testDevice.deviceTwinStatus == STATUS.UNKNOWN)
         {
@@ -891,7 +891,7 @@ public class DeviceTwinWithVersionTests extends MethodNameLoggingIntegrationTest
         testDevice.deviceClient.sendReportedProperties(newValues, 1);
 
         // assert
-        // test device client
+        // test identity client
         Thread.sleep(MAXIMUM_TIME_TO_WAIT_FOR_IOTHUB);
         while((testDevice.deviceTwinStatus != STATUS.BAD_ANSWER) && (testDevice.deviceTwinStatus != STATUS.IOTHUB_FAILURE))
         {
@@ -964,7 +964,7 @@ public class DeviceTwinWithVersionTests extends MethodNameLoggingIntegrationTest
         testDevice.deviceClient.sendReportedProperties(newValues, 3);
 
         // assert
-        // test device client
+        // test identity client
         Thread.sleep(MAXIMUM_TIME_TO_WAIT_FOR_IOTHUB);
         while((testDevice.deviceTwinStatus != STATUS.BAD_ANSWER) && (testDevice.deviceTwinStatus != STATUS.IOTHUB_FAILURE))
         {
@@ -1005,7 +1005,7 @@ public class DeviceTwinWithVersionTests extends MethodNameLoggingIntegrationTest
         testDevice.deviceClient.sendReportedProperties(PROPERTIES);
 
         // assert
-        // test device client
+        // test identity client
         Thread.sleep(MAXIMUM_TIME_TO_WAIT_FOR_IOTHUB);
         while(testDevice.deviceTwinStatus == STATUS.UNKNOWN)
         {
@@ -1075,7 +1075,7 @@ public class DeviceTwinWithVersionTests extends MethodNameLoggingIntegrationTest
         testDevice.deviceClient.sendReportedProperties(newValues, 2);
 
         // assert
-        // test device client
+        // test identity client
         Thread.sleep(MAXIMUM_TIME_TO_WAIT_FOR_IOTHUB);
         while(testDevice.deviceTwinStatus == STATUS.UNKNOWN)
         {
@@ -1151,7 +1151,7 @@ public class DeviceTwinWithVersionTests extends MethodNameLoggingIntegrationTest
         testDevice.deviceClient.sendReportedProperties(newValues, 1);
 
         // assert
-        // test device client
+        // test identity client
         Thread.sleep(MAXIMUM_TIME_TO_WAIT_FOR_IOTHUB);
         while((testDevice.deviceTwinStatus != STATUS.BAD_ANSWER) && (testDevice.deviceTwinStatus != STATUS.IOTHUB_FAILURE))
         {
@@ -1224,7 +1224,7 @@ public class DeviceTwinWithVersionTests extends MethodNameLoggingIntegrationTest
         testDevice.deviceClient.sendReportedProperties(newValues, 3);
 
         // assert
-        // test device client
+        // test identity client
         Thread.sleep(MAXIMUM_TIME_TO_WAIT_FOR_IOTHUB);
         while((testDevice.deviceTwinStatus != STATUS.BAD_ANSWER) && (testDevice.deviceTwinStatus != STATUS.IOTHUB_FAILURE))
         {

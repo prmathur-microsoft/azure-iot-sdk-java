@@ -428,7 +428,7 @@ public class JobClientTests
 
         cleanupJobs(executor, jobIdsPending);
 
-        // wait until device receive the Twin change
+        // wait until identity receive the Twin change
         ConcurrentMap<String, ConcurrentLinkedQueue<Object>> changes = deviceTestManger.getTwinChanges();
         int timeout = 0;
         while(changes.size() == 0)
@@ -453,7 +453,7 @@ public class JobClientTests
         }
         assertEquals("Missing job result", MAX_NUMBER_JOBS, jobResults.size());
         ConcurrentLinkedQueue<Object> temperatures = changes.get(STANDARD_PROPERTY_HOMETEMP);
-        assertNotNull("There is no " + STANDARD_PROPERTY_HOMETEMP + " in the device changes", temperatures);
+        assertNotNull("There is no " + STANDARD_PROPERTY_HOMETEMP + " in the identity changes", temperatures);
         for (Map.Entry<String, JobResult> job: jobResults.entrySet())
         {
             JobResult jobResult = job.getValue();

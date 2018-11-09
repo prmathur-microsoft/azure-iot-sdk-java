@@ -27,7 +27,7 @@ import static com.microsoft.azure.sdk.iot.device.IotHubClientProtocol.*;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Test class containing all non error injection tests to be run on JVM and android pertaining to receiving messages on a device/module. Class needs to be extended
+ * Test class containing all non error injection tests to be run on JVM and android pertaining to receiving messages on a identity/module. Class needs to be extended
  * in order to run these tests as that extended class handles setting connection strings and certificate generation
  */
 public class ReceiveMessagesTests extends ReceiveMessagesCommon
@@ -92,10 +92,10 @@ public class ReceiveMessagesTests extends ReceiveMessagesCommon
         // This E2E test is for testing multiple C2D sends and make sure buffers are not getting overwritten
         List<CompletableFuture<Void>> futureList = new ArrayList<>();
 
-        // set device to receive back to back different commands using AMQPS protocol
+        // set identity to receive back to back different commands using AMQPS protocol
         IotHubServicesCommon.openClientWithRetry(testInstance.client);
 
-        // set call back for device client for receiving message
+        // set call back for identity client for receiving message
         com.microsoft.azure.sdk.iot.device.MessageCallback callBackOnRx = new MessageCallbackForBackToBackC2DMessages();
 
         if (testInstance.client instanceof DeviceClient)
@@ -144,9 +144,9 @@ public class ReceiveMessagesTests extends ReceiveMessagesCommon
             }
         }
 
-        // Now wait for messages to be received in the device client
+        // Now wait for messages to be received in the identity client
         waitForBackToBackC2DMessagesToBeReceived();
-        testInstance.client.closeNow(); //close the device client connection
+        testInstance.client.closeNow(); //close the identity client connection
         assertTrue(testInstance.protocol + ", " + testInstance.authenticationType + ": Received messages don't match up with sent messages", messageIdListStoredOnReceive.containsAll(messageIdListStoredOnC2DSend)); // check if the received list is same as the actual list that was created on sending the messages
         messageIdListStoredOnReceive.clear();
     }

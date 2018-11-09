@@ -89,12 +89,12 @@ public class LongHaulJVMRunner
             registryManager = RegistryManager.createFromConnectionString(iotHubConnectionString);
             String uuid = UUID.randomUUID().toString();
 
-            String deviceIdSendHttps = "java-device-client-longhaul-send-test-https".concat("-" + uuid);
-            String deviceIdSendAmqps = "java-device-client-longhaul-send-test-amqps".concat("-" + uuid);
-            String deviceIdSendMqtt = "java-device-client-longhaul-send-test-mqtt".concat("-" + uuid);
-            String deviceIdReceiveHttps = "java-device-client-longhaul-receive-test-https".concat("-" + uuid);
-            String deviceIdReceiveAmqps = "java-device-client-longhaul-receive-test-amqps".concat("-" + uuid);
-            String deviceIdReceiveMqtt = "java-device-client-longhaul-receive-test-mqtt".concat("-" + uuid);
+            String deviceIdSendHttps = "java-identity-client-longhaul-send-test-https".concat("-" + uuid);
+            String deviceIdSendAmqps = "java-identity-client-longhaul-send-test-amqps".concat("-" + uuid);
+            String deviceIdSendMqtt = "java-identity-client-longhaul-send-test-mqtt".concat("-" + uuid);
+            String deviceIdReceiveHttps = "java-identity-client-longhaul-receive-test-https".concat("-" + uuid);
+            String deviceIdReceiveAmqps = "java-identity-client-longhaul-receive-test-amqps".concat("-" + uuid);
+            String deviceIdReceiveMqtt = "java-identity-client-longhaul-receive-test-mqtt".concat("-" + uuid);
 
             deviceSendHttps = Device.createFromId(deviceIdSendHttps, null, null);
             deviceSendAmqps = Device.createFromId(deviceIdSendAmqps, null, null);

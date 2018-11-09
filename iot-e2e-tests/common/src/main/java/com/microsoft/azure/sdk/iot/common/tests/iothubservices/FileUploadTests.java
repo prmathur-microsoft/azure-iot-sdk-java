@@ -180,7 +180,7 @@ public class FileUploadTests extends MethodNameLoggingIntegrationTest
         }
         catch (IotHubNotFoundException | IOException e)
         {
-            //device was likely never added. Can ignore
+            //identity was likely never added. Can ignore
         }
 
         fileUploadState = null;
@@ -418,7 +418,7 @@ public class FileUploadTests extends MethodNameLoggingIntegrationTest
             fileUploadNotification = fileUploadNotificationReceiver.receive(MAXIMUM_TIME_TO_WAIT_FOR_IOTHUB);
             assertNotNull(fileUploadNotification);
 
-            //ignore any file upload notifications received that are not about this device
+            //ignore any file upload notifications received that are not about this identity
         } while (!fileUploadNotification.getDeviceId().equals(scDevice.getDeviceId()));
 
         return fileUploadNotification;

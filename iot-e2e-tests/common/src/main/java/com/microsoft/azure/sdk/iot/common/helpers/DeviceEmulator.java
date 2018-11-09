@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * Implement a fake device to the end to end test.
+ * Implement a fake identity to the end to end test.
  */
 public class DeviceEmulator  implements Runnable
 {
@@ -49,7 +49,7 @@ public class DeviceEmulator  implements Runnable
 
     /**
      * CONSTRUCTOR
-     * Creates a new instance of the device emulator, and connect it to the IoTHub using the provided connectionString
+     * Creates a new instance of the identity emulator, and connect it to the IoTHub using the provided connectionString
      * and protocol.
      *
      * @throws URISyntaxException if the DeviceClient cannot resolve the URI.
@@ -115,8 +115,8 @@ public class DeviceEmulator  implements Runnable
     }
 
     /**
-     * Enable device method on this device using the local callbacks.
-     * @throws IOException if the client failed to subscribe on the device method.
+     * Enable identity method on this identity using the local callbacks.
+     * @throws IOException if the client failed to subscribe on the identity method.
      */
     void enableDeviceMethod() throws IOException
     {
@@ -124,8 +124,8 @@ public class DeviceEmulator  implements Runnable
     }
 
     /**
-     * Enable device method on this device.
-     * @param deviceMethodCallback is the callback called when a service invoke a method on this device. If it is null,
+     * Enable identity method on this identity.
+     * @param deviceMethodCallback is the callback called when a service invoke a method on this identity. If it is null,
      *                             the DeviceEmulator will take care of it using the MethodInvokeCallback.
      * @param deviceMethodCallbackContext is the context for the deviceMethodCallback. Only used if the
      *                                    deviceMethodCallback is not null.
@@ -134,7 +134,7 @@ public class DeviceEmulator  implements Runnable
      *                                   DeviceStatusCallback.
      * @param deviceMethodStatusCallbackContext is the context for the deviceMethodStatusCallback.Only used if the
      *                                    deviceMethodStatusCallback is not null.
-     * @throws IOException if the client failed to subscribe on the device method.
+     * @throws IOException if the client failed to subscribe on the identity method.
      */
     void enableDeviceMethod(
             DeviceMethodCallback deviceMethodCallback, Object deviceMethodCallbackContext,
@@ -178,7 +178,7 @@ public class DeviceEmulator  implements Runnable
     }
 
     /**
-     * Enable device twin on the emulator using the standard values.
+     * Enable identity twin on the emulator using the standard values.
      *
      * For standard values, getTwinChanges will provide a Map with desired
      *  properties reported in the callback, and getStatusOK and getStatusError
@@ -192,11 +192,11 @@ public class DeviceEmulator  implements Runnable
     }
 
     /**
-     * Enable device twin on the emulated device.
+     * Enable identity twin on the emulated identity.
      *
      * @param deviceTwinStatusCallBack callback to twin status. If {@code null}, use the local status callback.
      * @param deviceTwinStatusCallbackContext context for status callback. Used only if deviceTwinStatusCallBack is not {@code null}.
-     * @param deviceTwin is the device twin including the properties callback. If {@code null}, use the local device with standard properties.
+     * @param deviceTwin is the identity twin including the properties callback. If {@code null}, use the local identity with standard properties.
      * @param propertyCallBackContext context for the properties callback. Used only if deviceTwin is not {@code null}.
      * @param mustSubscribeToDesiredProperties is a boolean to define if it should or not subscribe to the desired properties.
      * @throws IOException if failed to start the Device Twin.

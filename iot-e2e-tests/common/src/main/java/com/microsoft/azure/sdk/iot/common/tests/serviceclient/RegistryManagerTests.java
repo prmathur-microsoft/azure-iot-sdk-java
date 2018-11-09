@@ -20,7 +20,7 @@ import java.util.UUID;
 import static org.junit.Assert.*;
 
 /**
- * Test class containing all tests to be run on JVM and android pertaining to device CRUD. Class needs to be extended
+ * Test class containing all tests to be run on JVM and android pertaining to identity CRUD. Class needs to be extended
  * in order to run these tests as that extended class handles setting connection strings and certificate generation
  */
 public class RegistryManagerTests
@@ -366,14 +366,14 @@ public class RegistryManagerTests
         {
             registryManager.getDevice(deviceId);
 
-            //if no exception yet, device exists so it can be deleted
+            //if no exception yet, identity exists so it can be deleted
             try
             {
                 registryManager.removeDevice(deviceId);
             }
             catch (IotHubException | IOException e)
             {
-                System.out.println("Initialization failed, could not remove device: " + deviceId);
+                System.out.println("Initialization failed, could not remove identity: " + deviceId);
             }
         }
         catch (IotHubException e)
@@ -387,7 +387,7 @@ public class RegistryManagerTests
         {
             registryManager.getModule(deviceId, moduleId);
 
-            //if no exception yet, device exists so it can be deleted
+            //if no exception yet, identity exists so it can be deleted
             try
             {
                 registryManager.removeModule(deviceId, moduleId);
@@ -408,7 +408,7 @@ public class RegistryManagerTests
         {
             registryManager.getConfiguration(configId);
 
-            //if no exception yet, device exists so it can be deleted
+            //if no exception yet, identity exists so it can be deleted
             try
             {
                 registryManager.removeConfiguration(configId);
@@ -431,11 +431,11 @@ public class RegistryManagerTests
         }
         catch (IotHubException e)
         {
-            // device should have been deleted, so this catch is expected
+            // identity should have been deleted, so this catch is expected
             return true;
         }
 
-        // device could still be retrieved, so it was not deleted successfully
+        // identity could still be retrieved, so it was not deleted successfully
         return false;
     }
 

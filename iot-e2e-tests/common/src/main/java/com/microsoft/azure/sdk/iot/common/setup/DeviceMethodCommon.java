@@ -27,10 +27,7 @@ import org.junit.BeforeClass;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -40,7 +37,7 @@ import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.SELF_S
 import static org.junit.Assert.*;
 
 /**
- * Utility functions, setup and teardown for all device method integration tests. This class should not contain any tests,
+ * Utility functions, setup and teardown for all identity method integration tests. This class should not contain any tests,
  * but any children class should.
  */
 public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
@@ -78,16 +75,13 @@ public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
 
         String TEST_UUID = UUID.randomUUID().toString();
 
-        /* Create unique device name */
+        /* Create unique identity name */
         String deviceId = "java-method-e2e-test-device".concat("-" + TEST_UUID);
         String moduleId = "java-method-e2e-test-module".concat("-" + TEST_UUID);
         String deviceX509Id = "java-method-e2e-test-device-x509".concat("-" + TEST_UUID);
         String moduleX509Id = "java-method-e2e-test-module-x509".concat("-" + TEST_UUID);
 
-        String[] devicesToDeleteAfterTestClassFinishes = new String[] {deviceId, deviceX509Id};
-        String[][] modulesToDeleteAfterTestClassFinishes = new String[][] {{deviceId, moduleId}, {deviceX509Id, moduleX509Id}};
-
-        /* Create device on the service */
+        /* Create identity on the service */
         Device device = Device.createFromId(deviceId, null, null);
         Module module = Module.createFromId(deviceId, moduleId, null);
 
@@ -116,11 +110,11 @@ public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
             {
                 if (clientType == ClientType.DEVICE_CLIENT)
                 {
-                    //sas device client
+                    //sas identity client
                     DeviceClient deviceClient = new DeviceClient(registryManager.getDeviceConnectionString(device), protocol);
                     DeviceTestManager deviceClientSasTestManager = new DeviceTestManager(deviceClient);
                     deviceTestManagers.add(deviceClientSasTestManager);
-                    inputs.add(makeSubArray(deviceClientSasTestManager, protocol, SAS, "DeviceClient", device, null, publicKeyCert, privateKey, x509Thumbprint));
+                    inputs.add(makeSubArray(deviceClientSasTestManager, protocol, SAS, "DeviceClient", device, publicKeyCert, privateKey, x509Thumbprint));
                 }
                 else if (clientType == ClientType.MODULE_CLIENT)
                 {
@@ -128,18 +122,18 @@ public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
                     ModuleClient moduleClient = new ModuleClient(registryManager.getDeviceConnectionString(device) + ";ModuleId=" + module.getId(), protocol);
                     DeviceTestManager moduleClientSasTestManager = new DeviceTestManager(moduleClient);
                     deviceTestManagers.add(moduleClientSasTestManager);
-                    inputs.add(makeSubArray(moduleClientSasTestManager, protocol, SAS, "ModuleClient", device, module, publicKeyCert, privateKey, x509Thumbprint));
+                    inputs.add(makeSubArray(moduleClientSasTestManager, protocol, SAS, "ModuleClient", module, publicKeyCert, privateKey, x509Thumbprint));
                 }
 
                 if (protocol != MQTT_WS && protocol != AMQPS_WS)
                 {
                     if (clientType == ClientType.DEVICE_CLIENT)
                     {
-                        //x509 device client
+                        //x509 identity client
                         DeviceClient deviceClientX509 = new DeviceClient(registryManager.getDeviceConnectionString(deviceX509), protocol, publicKeyCert, false, privateKey, false);
                         DeviceTestManager deviceClientX509TestManager = new DeviceTestManager(deviceClientX509);
                         deviceTestManagers.add(deviceClientX509TestManager);
-                        inputs.add(makeSubArray(deviceClientX509TestManager, protocol, SELF_SIGNED, "DeviceClient", deviceX509, null, publicKeyCert, privateKey, x509Thumbprint));
+                        inputs.add(makeSubArray(deviceClientX509TestManager, protocol, SELF_SIGNED, "DeviceClient", deviceX509, publicKeyCert, privateKey, x509Thumbprint));
                     }
                     else if (clientType == ClientType.MODULE_CLIENT)
                     {
@@ -147,7 +141,7 @@ public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
                         ModuleClient moduleClientX509 = new ModuleClient(registryManager.getDeviceConnectionString(deviceX509) + ";ModuleId=" + moduleX509.getId(), protocol, publicKeyCert, false, privateKey, false);
                         DeviceTestManager moduleClientX509TestManager = new DeviceTestManager(moduleClientX509);
                         deviceTestManagers.add(moduleClientX509TestManager);
-                        inputs.add(makeSubArray(moduleClientX509TestManager, protocol, SELF_SIGNED, "ModuleClient", deviceX509, moduleX509, publicKeyCert, privateKey, x509Thumbprint));
+                        inputs.add(makeSubArray(moduleClientX509TestManager, protocol, SELF_SIGNED, "ModuleClient", moduleX509, publicKeyCert, privateKey, x509Thumbprint));
                     }
                 }
             }
@@ -156,24 +150,23 @@ public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
         return inputs;
     }
 
-    public static Object[] makeSubArray(DeviceTestManager deviceTestManager, IotHubClientProtocol protocol, AuthenticationType authenticationType, String clientType, Device device, Module module, String publicKeyCert, String privateKey, String x509Thumbprint)
+    public static Object[] makeSubArray(DeviceTestManager deviceTestManager, IotHubClientProtocol protocol, AuthenticationType authenticationType, String clientType, BaseDevice identity, String publicKeyCert, String privateKey, String x509Thumbprint)
     {
-        Object[] inputSubArray = new Object[11];
+        Object[] inputSubArray = new Object[8];
         inputSubArray[0] = deviceTestManager;
         inputSubArray[1] = protocol;
         inputSubArray[2] = authenticationType;
         inputSubArray[3] = clientType;
-        inputSubArray[4] = device;
-        inputSubArray[5] = module;
-        inputSubArray[6] = publicKeyCert;
-        inputSubArray[7] = privateKey;
-        inputSubArray[8] = x509Thumbprint;
+        inputSubArray[4] = identity;
+        inputSubArray[5] = publicKeyCert;
+        inputSubArray[6] = privateKey;
+        inputSubArray[7] = x509Thumbprint;
         return inputSubArray;
     }
 
-    public DeviceMethodCommon(DeviceTestManager deviceTestManager, IotHubClientProtocol protocol, AuthenticationType authenticationType, String clientType, Device device, Module module, String publicKeyCert, String privateKey, String x509Thumbprint)
+    public DeviceMethodCommon(DeviceTestManager deviceTestManager, IotHubClientProtocol protocol, AuthenticationType authenticationType, String clientType, BaseDevice identity, String publicKeyCert, String privateKey, String x509Thumbprint)
     {
-        this.testInstance = new DeviceMethodITRunner(deviceTestManager, protocol, authenticationType, clientType, device, module, publicKeyCert, privateKey, x509Thumbprint);
+        this.testInstance = new DeviceMethodITRunner(deviceTestManager, protocol, authenticationType, clientType, identity, publicKeyCert, privateKey, x509Thumbprint);
     }
 
     public class DeviceMethodITRunner
@@ -182,29 +175,36 @@ public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
         public IotHubClientProtocol protocol;
         public AuthenticationType authenticationType;
         public String clientType;
-        public Device device;
-        public Module module;
+        public BaseDevice identity;
         public String publicKeyCert;
         public String privateKey;
         public String x509Thumbprint;
 
-        public DeviceMethodITRunner(DeviceTestManager deviceTestManager, IotHubClientProtocol protocol, AuthenticationType authenticationType, String clientType, Device device, Module module, String publicKeyCert, String privateKey, String x509Thumbprint)
+        public DeviceMethodITRunner(DeviceTestManager deviceTestManager, IotHubClientProtocol protocol, AuthenticationType authenticationType, String clientType, BaseDevice identity, String publicKeyCert, String privateKey, String x509Thumbprint)
         {
             this.deviceTestManager = deviceTestManager;
             this.protocol = protocol;
             this.authenticationType = authenticationType;
             this.clientType = clientType;
-            this.device = device;
-            this.module = module;
+            this.identity = identity;
             this.publicKeyCert = publicKeyCert;
             this.privateKey = privateKey;
             this.x509Thumbprint = x509Thumbprint;
         }
     }
 
-    public static BaseDevice[] getIdentities(Collection inputs)
+    public static Collection<BaseDevice> getIdentities(Collection inputs)
     {
-        BaseDevice[] identities = new
+        Set<BaseDevice> identities = new HashSet<>();
+
+        Object[] inputArray = inputs.toArray();
+        for (int i = 0; i < inputs.size(); i++)
+        {
+            Object[] o = (Object[]) inputArray[0];
+            identities.add((BaseDevice) o[4]);
+        }
+
+        return identities;
     }
 
     @BeforeClass
@@ -333,7 +333,7 @@ public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
         }
     }
 
-    public static void tearDown(String[] deviceIdsToDispose, String[][] moduleIdsToDispose, ArrayList<DeviceTestManager> deviceTestManagers)
+    public static void tearDown(Collection<BaseDevice> identitiesToDispose, ArrayList<DeviceTestManager> deviceTestManagers)
     {
         try
         {
@@ -348,10 +348,10 @@ public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
         catch (Exception e)
         {
             e.printStackTrace();
-            fail("Failed to stop device test managers");
+            fail("Failed to stop identity test managers");
         }
 
-        Tools.removeDevicesAndModules(registryManager, deviceIdsToDispose, moduleIdsToDispose);
+        Tools.removeDevicesAndModules(registryManager, identitiesToDispose);
 
         registryManager.close();
     }
@@ -370,27 +370,6 @@ public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
         this.testInstance.deviceTestManager.client.registerConnectionStatusChangeCallback(connectionStatusUpdateCallback, null);
     }
 
-    public void errorInjectionTestFlow(Message errorInjectionMessage) throws Exception
-    {
-        // Arrange
-        final List<IotHubConnectionStatus> actualStatusUpdates = new ArrayList<>();
-        setConnectionStatusCallBack(actualStatusUpdates);
-        invokeMethodSucceed();
-
-        // Act
-        errorInjectionMessage.setExpiryTime(200);
-        MessageAndResult errorInjectionMsgAndRet = new MessageAndResult(errorInjectionMessage, null);
-        this.testInstance.deviceTestManager.sendMessageAndWaitForResponse(
-                errorInjectionMsgAndRet,
-                RETRY_MILLISECONDS,
-                SEND_TIMEOUT_MILLISECONDS,
-                this.testInstance.protocol);
-
-        // Assert
-        IotHubServicesCommon.waitForStabilizedConnection(actualStatusUpdates, ERROR_INJECTION_WAIT_TIMEOUT);
-        invokeMethodSucceed();
-    }
-
     public void invokeMethodSucceed() throws Exception
     {
         // Arrange
@@ -398,13 +377,13 @@ public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
 
         // Act
         MethodResult result;
-        if (testInstance.module != null)
+        if (testInstance.identity instanceof Module)
         {
-            result = methodServiceClient.invoke(testInstance.device.getDeviceId(), testInstance.module.getId(), DeviceEmulator.METHOD_LOOPBACK, RESPONSE_TIMEOUT, CONNECTION_TIMEOUT, PAYLOAD_STRING);
+            result = methodServiceClient.invoke(testInstance.identity.getDeviceId(), ((Module)testInstance.identity).getId(), DeviceEmulator.METHOD_LOOPBACK, RESPONSE_TIMEOUT, CONNECTION_TIMEOUT, PAYLOAD_STRING);
         }
         else
         {
-            result = methodServiceClient.invoke(testInstance.device.getDeviceId(), DeviceEmulator.METHOD_LOOPBACK, RESPONSE_TIMEOUT, CONNECTION_TIMEOUT, PAYLOAD_STRING);
+            result = methodServiceClient.invoke(testInstance.identity.getDeviceId(), DeviceEmulator.METHOD_LOOPBACK, RESPONSE_TIMEOUT, CONNECTION_TIMEOUT, PAYLOAD_STRING);
         }
 
         deviceTestManger.waitIotHub(1, 10);

@@ -46,7 +46,7 @@ public class SendMessagesErrInjTests extends SendMessagesCommon
     {
         if (testInstance.protocol == HTTPS || (testInstance.protocol == MQTT_WS && testInstance.authenticationType != SAS))
         {
-            //TCP connection is not maintained between device and service when using HTTPS, so this test case isn't applicable
+            //TCP connection is not maintained between identity and service when using HTTPS, so this test case isn't applicable
             //MQTT_WS + x509 is not supported for sending messages
             return;
         }
@@ -313,7 +313,7 @@ public class SendMessagesErrInjTests extends SendMessagesCommon
     {
         if (testInstance.protocol == HTTPS || (testInstance.protocol == MQTT_WS && testInstance.authenticationType != SAS))
         {
-            //TCP connection is not maintained between device and service when using HTTPS, so this test case isn't applicable
+            //TCP connection is not maintained between identity and service when using HTTPS, so this test case isn't applicable
             //MQTT_WS + x509 is not supported for sending messages
             return;
         }
@@ -330,10 +330,10 @@ public class SendMessagesErrInjTests extends SendMessagesCommon
     private void errorInjectionTestFlowNoDisconnect(Message errorInjectionMessage, IotHubStatusCode expectedStatus, boolean noRetry) throws IOException, IotHubException, URISyntaxException, InterruptedException
     {
         // Arrange
-        // This test case creates a device instead of re-using the one in this.testInstance due to state changes
+        // This test case creates a identity instead of re-using the one in this.testInstance due to state changes
         // introduced by injected errors
         String uuid = UUID.randomUUID().toString();
-        String deviceId = "java-device-client-e2e-test-send-messages".concat("-" + uuid);
+        String deviceId = "java-identity-client-e2e-test-send-messages".concat("-" + uuid);
 
         Device target;
         DeviceClient dc;

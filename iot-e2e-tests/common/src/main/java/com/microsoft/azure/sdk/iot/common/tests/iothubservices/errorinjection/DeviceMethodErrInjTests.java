@@ -7,12 +7,20 @@ package com.microsoft.azure.sdk.iot.common.tests.iothubservices.errorinjection;
 
 import com.microsoft.azure.sdk.iot.common.helpers.DeviceTestManager;
 import com.microsoft.azure.sdk.iot.common.helpers.ErrorInjectionHelper;
+import com.microsoft.azure.sdk.iot.common.helpers.IotHubServicesCommon;
+import com.microsoft.azure.sdk.iot.common.helpers.MessageAndResult;
 import com.microsoft.azure.sdk.iot.common.setup.DeviceMethodCommon;
 import com.microsoft.azure.sdk.iot.device.IotHubClientProtocol;
+import com.microsoft.azure.sdk.iot.device.Message;
+import com.microsoft.azure.sdk.iot.device.transport.IotHubConnectionStatus;
+import com.microsoft.azure.sdk.iot.service.BaseDevice;
 import com.microsoft.azure.sdk.iot.service.Device;
 import com.microsoft.azure.sdk.iot.service.Module;
 import com.microsoft.azure.sdk.iot.service.auth.AuthenticationType;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.microsoft.azure.sdk.iot.device.IotHubClientProtocol.*;
 import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.SAS;
@@ -24,9 +32,9 @@ import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.SELF_S
  */
 public class DeviceMethodErrInjTests extends DeviceMethodCommon
 {
-    public DeviceMethodErrInjTests(DeviceTestManager deviceTestManager, IotHubClientProtocol protocol, AuthenticationType authenticationType, String clientType, Device device, Module module, String publicKeyCert, String privateKey, String x509Thumbprint)
+    public DeviceMethodErrInjTests(DeviceTestManager deviceTestManager, IotHubClientProtocol protocol, AuthenticationType authenticationType, String clientType, BaseDevice identity, String publicKeyCert, String privateKey, String x509Thumbprint)
     {
-        super(deviceTestManager, protocol, authenticationType, clientType, device, module, publicKeyCert, privateKey, x509Thumbprint);
+        super(deviceTestManager, protocol, authenticationType, clientType, identity, publicKeyCert, privateKey, x509Thumbprint);
     }
 
     @Test(timeout = ERROR_INJECTION_EXECUTION_TIMEOUT)
@@ -238,5 +246,26 @@ public class DeviceMethodErrInjTests extends DeviceMethodCommon
         this.errorInjectionTestFlow(ErrorInjectionHelper.mqttGracefulShutdownErrorInjectionMessage(
                 ErrorInjectionHelper.DefaultDelayInSec,
                 ErrorInjectionHelper.DefaultDurationInSec));
+    }
+
+    public void errorInjectionTestFlow(Message errorInjectionMessage) throws Exception
+    {
+        // Arrange
+        final List<IotHubConnectionStatus> actualStatusUpdates = new ArrayList<>();
+        setConnectionStatusCallBack(actualStatusUpdates);
+        invokeMethodSucceed();
+
+        // Act
+        errorInjectionMessage.setExpiryTime(200);
+        MessageAndResult errorInjectionMsgAndRet = new MessageAndResult(errorInjectionMessage, null);
+        this.testInstance.deviceTestManager.sendMessageAndWaitForResponse(
+                errorInjectionMsgAndRet,
+                RETRY_MILLISECONDS,
+                SEND_TIMEOUT_MILLISECONDS,
+                this.testInstance.protocol);
+
+        // Assert
+        IotHubServicesCommon.waitForStabilizedConnection(actualStatusUpdates, ERROR_INJECTION_WAIT_TIMEOUT);
+        invokeMethodSucceed();
     }
 }

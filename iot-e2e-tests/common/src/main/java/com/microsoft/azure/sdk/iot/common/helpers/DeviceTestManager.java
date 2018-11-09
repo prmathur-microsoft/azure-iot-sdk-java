@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * Manager to create and control a device on both service and device sides.
+ * Manager to create and control a identity on both service and identity sides.
  */
 public class DeviceTestManager
 {
@@ -24,7 +24,7 @@ public class DeviceTestManager
 
     public InternalClient client;
 
-    /* deviceEmulator is the device definition on the device `End`. */
+    /* deviceEmulator is the identity definition on the identity `End`. */
     private DeviceEmulator deviceEmulator;
     private Thread deviceThread;
 
@@ -33,7 +33,7 @@ public class DeviceTestManager
     {
         this.client = client;
 
-        /* Create a emulator for the device client, and connect it to the IoTHub */
+        /* Create a emulator for the identity client, and connect it to the IoTHub */
         deviceEmulator = new DeviceEmulator(client);
 
         deviceThread = new Thread(deviceEmulator);
@@ -62,13 +62,13 @@ public class DeviceTestManager
     {
         this.deviceEmulator.start();
 
-        /* Enable DeviceMethod on the device client using the callbacks from the DeviceEmulator */
+        /* Enable DeviceMethod on the identity client using the callbacks from the DeviceEmulator */
         deviceEmulator.enableDeviceMethod();
 
-        /* Enable DeviceTwin on the device client using the callbacks from the DeviceEmulator */
+        /* Enable DeviceTwin on the identity client using the callbacks from the DeviceEmulator */
         deviceEmulator.enableDeviceTwin();
 
-        /* Wait until the device complete the connection with the IoTHub. */
+        /* Wait until the identity complete the connection with the IoTHub. */
         //waitIotHub(1, OPEN_CONNECTION_TIMEOUT_IN_SECONDS);
     }
 
@@ -110,21 +110,21 @@ public class DeviceTestManager
             }
         }
 
-        /* Create a emulator for the device client, and connect it to the IoTHub */
+        /* Create a emulator for the identity client, and connect it to the IoTHub */
         deviceEmulator = new DeviceEmulator(this.client);
 
         deviceEmulator.start();
 
-        /* Enable DeviceMethod on the device client using the callbacks from the DeviceEmulator */
+        /* Enable DeviceMethod on the identity client using the callbacks from the DeviceEmulator */
         deviceEmulator.enableDeviceMethod();
 
-        /* Enable DeviceTwin on the device client using the callbacks from the DeviceEmulator */
+        /* Enable DeviceTwin on the identity client using the callbacks from the DeviceEmulator */
         deviceEmulator.enableDeviceTwin();
 
         deviceThread = new Thread(deviceEmulator);
         deviceThread.start();
 
-        /* Wait until the device complete the connection with the IoTHub. */
+        /* Wait until the identity complete the connection with the IoTHub. */
         //waitIotHub(1, OPEN_CONNECTION_TIMEOUT_IN_SECONDS);
     }
 

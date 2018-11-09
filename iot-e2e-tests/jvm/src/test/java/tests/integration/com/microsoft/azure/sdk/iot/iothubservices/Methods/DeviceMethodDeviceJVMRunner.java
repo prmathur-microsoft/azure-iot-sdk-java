@@ -10,6 +10,7 @@ import com.microsoft.azure.sdk.iot.common.setup.DeviceMethodCommon;
 import com.microsoft.azure.sdk.iot.common.tests.iothubservices.methods.DeviceMethodTests;
 import com.microsoft.azure.sdk.iot.device.IotHubClientProtocol;
 import com.microsoft.azure.sdk.iot.device.exceptions.ModuleClientException;
+import com.microsoft.azure.sdk.iot.service.BaseDevice;
 import com.microsoft.azure.sdk.iot.service.Device;
 import com.microsoft.azure.sdk.iot.service.Module;
 import com.microsoft.azure.sdk.iot.service.auth.AuthenticationType;
@@ -29,13 +30,14 @@ import static org.junit.Assert.fail;
 @RunWith(Parameterized.class)
 public class DeviceMethodDeviceJVMRunner extends DeviceMethodTests
 {
-    static String[] devicesToDeleteAfterTestClassFinishes;
+    static Collection<BaseDevice> identities;
     static ArrayList<DeviceTestManager> testManagers;
 
-    public DeviceMethodDeviceJVMRunner(DeviceTestManager deviceTestManager, IotHubClientProtocol protocol, AuthenticationType authenticationType, String clientType, Device device, Module module, String publicKeyCert, String privateKey, String x509Thumbprint)
+    public DeviceMethodDeviceJVMRunner(DeviceTestManager deviceTestManager, IotHubClientProtocol protocol, AuthenticationType authenticationType, String clientType, BaseDevice identity, String publicKeyCert, String privateKey, String x509Thumbprint)
     {
-        super(deviceTestManager, protocol, authenticationType, clientType, device, module, publicKeyCert, privateKey, x509Thumbprint);
+        super(deviceTestManager, protocol, authenticationType, clientType, identity, publicKeyCert, privateKey, x509Thumbprint);
     }
+
 
     //This function is run before even the @BeforeClass annotation, so it is used as the @BeforeClass method
     @Parameterized.Parameters(name = "{1} with {2} auth using {3}")
@@ -56,13 +58,14 @@ public class DeviceMethodDeviceJVMRunner extends DeviceMethodTests
             testManagers.add((DeviceTestManager) inputCollection[0]);
         }
 
-        devicesToDeleteAfterTestClassFinishes = (String[])((Object[])inputs.toArray()[0])[6];
+        identities = getIdentities(inputs);
+
         return inputs;
     }
 
     @AfterClass
     public static void cleanUpResources()
     {
-        tearDown(devicesToDeleteAfterTestClassFinishes, null, testManagers);
+        tearDown(identities, testManagers);
     }
 }

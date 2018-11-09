@@ -358,6 +358,43 @@ public class RegistryManager
     }
 
     /**
+     * Return the iothub module connection string for a provided module
+     * @param module The module object to get the connectionString
+     * @return The iothub module connection string
+     */
+    public String getModuleConnectionString(Module module)
+    {
+        // Codes_SRS_SERVICE_SDK_JAVA_REGISTRYMANAGER_21_086: [The function shall throw IllegalArgumentException if the input device is null, if deviceId is null, or primary key and primary thumbprint are empty or null.]
+        if (module == null)
+        {
+            throw new IllegalArgumentException("device cannot be null");
+        }
+
+        if(Tools.isNullOrEmpty(module.getDeviceId()) || (Tools.isNullOrEmpty(module.getPrimaryKey())) && Tools.isNullOrEmpty(module.getPrimaryThumbprint()))
+        {
+            throw new IllegalArgumentException("device is not valid");
+        }
+
+        // Codes_SRS_SERVICE_SDK_JAVA_REGISTRYMANAGER_21_085: [The function shall return a connectionString for the input device]
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(String.format("HostName=%s;", iotHubConnectionString.getHostName()));
+        stringBuilder.append(String.format("DeviceId=%s;", module.getDeviceId()));
+        if (module.getPrimaryKey() == null)
+        {
+            //self signed or CA signed
+            stringBuilder.append("x509=true");
+        }
+        else
+        {
+            stringBuilder.append(String.format("SharedAccessKey=%s", module.getPrimaryKey()));
+        }
+
+        stringBuilder.append("ModuleId=" + module.getId());
+
+        return stringBuilder.toString();
+    }
+
+    /**
      * Update device not forced
      *
      * @param device The device object containing updated data

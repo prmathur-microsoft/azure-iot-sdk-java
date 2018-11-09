@@ -330,7 +330,7 @@ public class IotHubServicesCommon
             catch (IOException e)
             {
                 //ignore and try again
-                System.out.println("Encountered exception while opening device client, retrying...");
+                System.out.println("Encountered exception while opening identity client, retrying...");
                 e.printStackTrace();
                 Thread.sleep(400);
             }

@@ -31,7 +31,7 @@ import static com.microsoft.azure.sdk.iot.service.auth.AuthenticationType.*;
 import static junit.framework.TestCase.fail;
 
 /**
- * Test class containing all non error injection tests to be run on JVM and android pertaining to sending messages from a device/module. Class needs to be extended
+ * Test class containing all non error injection tests to be run on JVM and android pertaining to sending messages from a identity/module. Class needs to be extended
  * in order to run these tests as that extended class handles setting connection strings and certificate generation
  */
 public class SendMessagesTests extends SendMessagesCommon
@@ -44,7 +44,7 @@ public class SendMessagesTests extends SendMessagesCommon
     @Test (timeout = DEFAULT_TEST_TIMEOUT)
     public void sendMessages() throws IOException, InterruptedException
     {
-        System.out.println("Testing with device: "+testInstance.device.getDeviceId());
+        System.out.println("Testing with identity: "+testInstance.device.getDeviceId());
         if (testInstance.protocol == MQTT_WS && (testInstance.authenticationType == SELF_SIGNED || testInstance.authenticationType == CERTIFICATE_AUTHORITY))
         {
             //mqtt_ws does not support x509 auth currently
@@ -69,7 +69,7 @@ public class SendMessagesTests extends SendMessagesCommon
 
         for (int messageAttempt = 0; messageAttempt < NUM_MESSAGES_PER_CONNECTION; messageAttempt++)
         {
-            //wait until old sas token has expired, this should force the config to generate a new one from the device key
+            //wait until old sas token has expired, this should force the config to generate a new one from the identity key
             Thread.sleep(SECONDS_FOR_SAS_TOKEN_TO_LIVE_BEFORE_RENEWAL * 1000);
 
             Success messageSent = new Success();
@@ -106,7 +106,7 @@ public class SendMessagesTests extends SendMessagesCommon
         String uuid = UUID.randomUUID().toString();
         for (int i = 0; i < MAX_DEVICE_PARALLEL; i++)
         {
-            String deviceIdAmqps = "java-device-client-e2e-test-amqps".concat(i + "-" + uuid);
+            String deviceIdAmqps = "java-identity-client-e2e-test-amqps".concat(i + "-" + uuid);
             deviceListAmqps[i] = Device.createFromId(deviceIdAmqps, null, null);
             registryManager.addDevice(deviceListAmqps[i]);
         }

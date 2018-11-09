@@ -37,7 +37,7 @@ import static junit.framework.TestCase.fail;
 import static org.junit.Assert.*;
 
 /**
- * Utility functions, setup and teardown for all device twin integration tests. This class should not contain any tests,
+ * Utility functions, setup and teardown for all identity twin integration tests. This class should not contain any tests,
  * but any child class should.
  */
 public class DeviceTwinCommon extends MethodNameLoggingIntegrationTest
@@ -209,7 +209,7 @@ public class DeviceTwinCommon extends MethodNameLoggingIntegrationTest
         for (int i = 0; i < numberOfDevices; i++)
         {
             devicesUnderTest[i] = new DeviceState();
-            String id = "java-device-twin-e2e-test-" + this.testInstance.protocol.toString() + UUID.randomUUID().toString();
+            String id = "java-identity-twin-e2e-test-" + this.testInstance.protocol.toString() + UUID.randomUUID().toString();
             devicesUnderTest[i].sCDeviceForRegistryManager = com.microsoft.azure.sdk.iot.service.Device.createFromId(id, null, null);
             devicesUnderTest[i].sCModuleForRegistryManager = com.microsoft.azure.sdk.iot.service.Module.createFromId(id, "module", null);
             devicesUnderTest[i].sCDeviceForRegistryManager = registryManager.addDevice(devicesUnderTest[i].sCDeviceForRegistryManager);
@@ -300,7 +300,7 @@ public class DeviceTwinCommon extends MethodNameLoggingIntegrationTest
 
     public static void tearDownTwin(DeviceState deviceState) throws IOException
     {
-        // tear down twin on device client
+        // tear down twin on identity client
         if (deviceState.sCDeviceForTwin != null)
         {
             deviceState.sCDeviceForTwin.clearTwin();
@@ -323,17 +323,17 @@ public class DeviceTwinCommon extends MethodNameLoggingIntegrationTest
         scRawTwinQueryClient = RawTwinQuery.createFromConnectionString(iotHubConnectionString);
 
         String uuid = UUID.randomUUID().toString();
-        String deviceIdAmqps = "java-device-client-e2e-test-amqps".concat("-" + uuid);
-        String deviceIdAmqpsWs = "java-device-client-e2e-test-amqpsws".concat("-" + uuid);
-        String deviceIdMqtt = "java-device-client-e2e-test-mqtt".concat("-" + uuid);
-        String deviceIdMqttWs = "java-device-client-e2e-test-mqttws".concat("-" + uuid);
-        String deviceIdMqttX509 = "java-device-client-e2e-test-mqtt-X509".concat("-" + uuid);
-        String deviceIdAmqpsX509 = "java-device-client-e2e-test-amqps-X509".concat("-" + uuid);
+        String deviceIdAmqps = "java-identity-client-e2e-test-amqps".concat("-" + uuid);
+        String deviceIdAmqpsWs = "java-identity-client-e2e-test-amqpsws".concat("-" + uuid);
+        String deviceIdMqtt = "java-identity-client-e2e-test-mqtt".concat("-" + uuid);
+        String deviceIdMqttWs = "java-identity-client-e2e-test-mqttws".concat("-" + uuid);
+        String deviceIdMqttX509 = "java-identity-client-e2e-test-mqtt-X509".concat("-" + uuid);
+        String deviceIdAmqpsX509 = "java-identity-client-e2e-test-amqps-X509".concat("-" + uuid);
 
-        String moduleIdAmqps = "java-device-client-e2e-test-amqps-module".concat("-" + uuid);
-        String moduleIdAmqpsWs = "java-device-client-e2e-test-amqpsws-module".concat("-" + uuid);
-        String moduleIdMqtt = "java-device-client-e2e-test-mqtt-module".concat("-" + uuid);
-        String moduleIdMqttWs = "java-device-client-e2e-test-mqttws-module".concat("-" + uuid);
+        String moduleIdAmqps = "java-identity-client-e2e-test-amqps-module".concat("-" + uuid);
+        String moduleIdAmqpsWs = "java-identity-client-e2e-test-amqpsws-module".concat("-" + uuid);
+        String moduleIdMqtt = "java-identity-client-e2e-test-mqtt-module".concat("-" + uuid);
+        String moduleIdMqttWs = "java-identity-client-e2e-test-mqttws-module".concat("-" + uuid);
 
         //devices and modules are deleted in between tests, not after the class, so no need to save these for later
         String[] devicesToDeleteAfterTestClassFinishes = new String[] {};
@@ -345,13 +345,13 @@ public class DeviceTwinCommon extends MethodNameLoggingIntegrationTest
             inputs =  Arrays.asList(
                     new Object[][]
                             {
-                                    //sas token, device client
+                                    //sas token, identity client
                                     {deviceIdAmqps, null, AMQPS, SAS, "DeviceClient", devicesToDeleteAfterTestClassFinishes, modulesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint},
                                     {deviceIdAmqpsWs, null, AMQPS_WS, SAS, "DeviceClient", devicesToDeleteAfterTestClassFinishes, modulesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint},
                                     {deviceIdMqtt, null, MQTT, SAS, "DeviceClient", devicesToDeleteAfterTestClassFinishes, modulesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint},
                                     {deviceIdMqttWs,  null, MQTT_WS, SAS, "DeviceClient", devicesToDeleteAfterTestClassFinishes, modulesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint},
 
-                                    //x509, device client
+                                    //x509, identity client
                                     {deviceIdAmqpsX509, null, AMQPS, SELF_SIGNED, "DeviceClient", devicesToDeleteAfterTestClassFinishes, modulesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint},
                                     {deviceIdMqttX509, null, MQTT, SELF_SIGNED, "DeviceClient", devicesToDeleteAfterTestClassFinishes, modulesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint},
                             }
@@ -471,7 +471,7 @@ public class DeviceTwinCommon extends MethodNameLoggingIntegrationTest
     {
         if (registryManager != null)
         {
-            Tools.removeDevicesAndModules(registryManager, deviceIdsToDispose, moduleIdsToDispose);
+            Tools.removeDevicesAndModules(registryManager, null);
             registryManager.close();
         }
 

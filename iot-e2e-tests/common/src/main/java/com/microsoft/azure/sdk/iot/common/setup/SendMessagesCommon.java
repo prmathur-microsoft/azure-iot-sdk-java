@@ -36,7 +36,7 @@ import static junit.framework.TestCase.fail;
  */
 public class SendMessagesCommon extends MethodNameLoggingIntegrationTest
 {
-    //How much sequential connections each device will open and close in the multithreaded test.
+    //How much sequential connections each identity will open and close in the multithreaded test.
     public static final Integer NUM_CONNECTIONS_PER_DEVICE = 5;
 
     //How much devices the multithreaded test will create in parallel.
@@ -80,7 +80,7 @@ public class SendMessagesCommon extends MethodNameLoggingIntegrationTest
 
     public SendMessagesITRunner testInstance;
 
-    //How much messages each device will send to the hub for each connection.
+    //How much messages each identity will send to the hub for each connection.
     public static final Integer NUM_MESSAGES_PER_CONNECTION = 6;
 
     public static final AtomicBoolean succeed = new AtomicBoolean();
@@ -110,8 +110,8 @@ public class SendMessagesCommon extends MethodNameLoggingIntegrationTest
     {
         registryManager = RegistryManager.createFromConnectionString(iotHubConnectionString);
         String uuid = UUID.randomUUID().toString();
-        String deviceId = "java-device-client-e2e-test-send-messages".concat("-" + uuid);
-        String deviceIdX509 = "java-device-client-e2e-test-send-messages-X509".concat("-" + uuid);
+        String deviceId = "java-identity-client-e2e-test-send-messages".concat("-" + uuid);
+        String deviceIdX509 = "java-identity-client-e2e-test-send-messages-X509".concat("-" + uuid);
         String moduleId = "java-module-client-e2e-test-send-messages".concat("-" + uuid);
         String moduleIdX509 = "java-module-client-e2e-test-send-messages-X509".concat("-" + uuid);
 
@@ -143,14 +143,14 @@ public class SendMessagesCommon extends MethodNameLoggingIntegrationTest
             inputs = Arrays.asList(
                     new Object[][]
                             {
-                                    //sas token device client
+                                    //sas token identity client
                                     {new DeviceClient(DeviceConnectionString.get(iotHubConnectionString, device), HTTPS), HTTPS, device, SAS, "DeviceClient", devicesToDeleteAfterTestClassFinishes, modulesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint},
                                     {new DeviceClient(DeviceConnectionString.get(iotHubConnectionString, device), MQTT), MQTT, device, SAS, "DeviceClient", devicesToDeleteAfterTestClassFinishes, modulesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint},
                                     {new DeviceClient(DeviceConnectionString.get(iotHubConnectionString, device), MQTT_WS), MQTT_WS, device, SAS, "DeviceClient", devicesToDeleteAfterTestClassFinishes, modulesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint},
                                     {new DeviceClient(DeviceConnectionString.get(iotHubConnectionString, device), AMQPS), AMQPS, device, SAS, "DeviceClient", devicesToDeleteAfterTestClassFinishes, modulesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint},
                                     {new DeviceClient(DeviceConnectionString.get(iotHubConnectionString, device), AMQPS_WS), AMQPS_WS, device, SAS, "DeviceClient", devicesToDeleteAfterTestClassFinishes, modulesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint},
 
-                                    //x509 device client
+                                    //x509 identity client
                                     {new DeviceClient(DeviceConnectionString.get(iotHubConnectionString, deviceX509), HTTPS, publicKeyCert, false, privateKey, false), HTTPS, deviceX509, SELF_SIGNED, "DeviceClient", devicesToDeleteAfterTestClassFinishes, modulesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint},
                                     {new DeviceClient(DeviceConnectionString.get(iotHubConnectionString, deviceX509), MQTT, publicKeyCert, false, privateKey, false), MQTT, deviceX509, SELF_SIGNED, "DeviceClient", devicesToDeleteAfterTestClassFinishes, modulesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint},
                                     {new DeviceClient(DeviceConnectionString.get(iotHubConnectionString, deviceX509), AMQPS, publicKeyCert, false, privateKey, false), AMQPS, deviceX509, SELF_SIGNED, "DeviceClient", devicesToDeleteAfterTestClassFinishes, modulesToDeleteAfterTestClassFinishes, publicKeyCert, privateKey, x509Thumbprint}
@@ -384,7 +384,7 @@ public class SendMessagesCommon extends MethodNameLoggingIntegrationTest
     {
         if (registryManager != null)
         {
-            Tools.removeDevicesAndModules(registryManager, deviceIdsToDispose, moduleIdsToDispose);
+            Tools.removeDevicesAndModules(registryManager, null);
             registryManager.close();
             registryManager = null;
         }

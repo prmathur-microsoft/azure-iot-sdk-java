@@ -26,13 +26,13 @@ public class SasTokenGenerator
     private static final String DEVICE_PATH = "devices";
 
     /**
-     * Creates HMAC_SHA256 SAS token for the specified device using its device key
+     * Creates HMAC_SHA256 SAS token for the specified identity using its identity key
      * @param hostname The host name for the IoT Hub
-     * @param deviceId The id of the device to create the token for
-     * @param devicePrimaryKey The primary key for the device
+     * @param deviceId The id of the identity to create the token for
+     * @param devicePrimaryKey The primary key for the identity
      * @param secondsUntilExpiration the number of seconds until the created token expires
-     * @return The full SAS token string for accessing your device
-     * @throws InvalidKeyException if the provided device key cannot be used to authenticate
+     * @return The full SAS token string for accessing your identity
+     * @throws InvalidKeyException if the provided identity key cannot be used to authenticate
      */
     public static String generateSasTokenForIotDevice(String hostname, String deviceId, String devicePrimaryKey, long secondsUntilExpiration)
             throws InvalidKeyException
@@ -44,7 +44,7 @@ public class SasTokenGenerator
         Date previousDate = new Date(EPOCH_YEAR);
         long tokenExpirationTime = ((now.getTime() - previousDate.getTime()) / 1000) + secondsUntilExpiration;
 
-        //Codes_SRS_SAS_TOKEN_GENERATOR_34_002: [This method shall create a Sas token from the provided device key and deviceId.]
+        //Codes_SRS_SAS_TOKEN_GENERATOR_34_002: [This method shall create a Sas token from the provided identity key and deviceId.]
         String signature = getSignature(deviceUri, tokenExpirationTime, devicePrimaryKey);
 
         //Codes_SRS_SAS_TOKEN_GENERATOR_34_001: [This method shall return the created Sas token in the format "HostName=<hostname>;DeviceId=<deviceId>;SharedAccessSignature=SharedAccessSignature sr=<deviceUri>&sig=<signature>&se=<tokenExpirationTime>".]
@@ -58,9 +58,9 @@ public class SasTokenGenerator
      * Creates and returns the sas token signature
      * @param resourceUri the uri for the resource the sas token is created for
      * @param expiryTime the number of seconds for the sas token to be valid for
-     * @param devicePrimaryKey the key for the primary device
+     * @param devicePrimaryKey the key for the primary identity
      * @return The created sas token signature
-     * @throws InvalidKeyException if the provided device key is invalid
+     * @throws InvalidKeyException if the provided identity key is invalid
      */
     private static String getSignature(String resourceUri, long expiryTime, String devicePrimaryKey)
             throws InvalidKeyException

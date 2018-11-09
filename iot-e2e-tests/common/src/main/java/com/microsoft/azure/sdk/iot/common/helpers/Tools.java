@@ -5,10 +5,14 @@
 
 package com.microsoft.azure.sdk.iot.common.helpers;
 
+import com.microsoft.azure.sdk.iot.service.BaseDevice;
+import com.microsoft.azure.sdk.iot.service.Device;
+import com.microsoft.azure.sdk.iot.service.Module;
 import com.microsoft.azure.sdk.iot.service.RegistryManager;
 import com.microsoft.azure.sdk.iot.service.exceptions.IotHubException;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import static org.junit.Assert.fail;
 
@@ -44,43 +48,29 @@ public class Tools
     /**
      * Uses the provided registry manager to delete all the devices and modules specified in the arguments
      * @param registryManager the registry manager to use. Will not be closed after this call
-     * @param deviceIdsToDispose the list of device ids to delete
-     * @param moduleIdsToDispose the list of pairs of device id and module id ie: {{deviceForModule1, Module1}, {deviceForModule2, Module2}, etc...}
-     * @throws IOException if deleting the device or module fails
-     * @throws IotHubException if deleting the device or module fails
+     * @param identitiesToDispose the list of modules and or devices to be removed from the iot hub using the provided
+     *                            registry manager
+     * @throws IOException if deleting the identity or module fails
+     * @throws IotHubException if deleting the identity or module fails
      */
-    public static void removeDevicesAndModules(RegistryManager registryManager, String[] deviceIdsToDispose, String[][] moduleIdsToDispose)
+    public static void removeDevicesAndModules(RegistryManager registryManager, Collection<BaseDevice> identitiesToDispose)
     {
-        if (moduleIdsToDispose != null && moduleIdsToDispose.length > 0)
+        try
         {
-            try
+            for (BaseDevice identityToDispose : identitiesToDispose)
             {
-                for (int i = 0; i < moduleIdsToDispose.length; i++)
+                if (identityToDispose instanceof Module)
                 {
-                    registryManager.removeModule(moduleIdsToDispose[i][0], moduleIdsToDispose[i][1]);
+                    registryManager.removeModule(identityToDispose.getDeviceId(), ((Module) identityToDispose).getId());
                 }
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-                fail("Failed to remove modules: " + e.getMessage());
+
+                registryManager.removeDevice(identityToDispose.getDeviceId());
             }
         }
-
-        if (deviceIdsToDispose != null && deviceIdsToDispose.length > 0)
+        catch (Exception e)
         {
-            try
-            {
-                for (int i = 0; i < deviceIdsToDispose.length; i++)
-                {
-                    registryManager.removeDevice(deviceIdsToDispose[i]);
-                }
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-                fail("Failed to remove devices: " + e.getMessage());
-            }
+            e.printStackTrace();
+            fail("Failed to remove devices/modules from iot hub: " + e.getMessage());
         }
     }
 }

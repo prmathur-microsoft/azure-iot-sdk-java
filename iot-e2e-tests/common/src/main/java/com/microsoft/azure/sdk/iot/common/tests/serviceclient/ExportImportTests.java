@@ -129,7 +129,7 @@ public class ExportImportTests
         {
             if (!exportedDevices.contains(importedDevice))
             {
-                Assert.fail("Exported devices list does not contain device with id: " + importedDevice.getId());
+                Assert.fail("Exported devices list does not contain identity with id: " + importedDevice.getId());
             }
         }
 

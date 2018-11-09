@@ -44,7 +44,7 @@ public class ReceiveMessagesCommon extends MethodNameLoggingIntegrationTest
     // variables used in E2E test for sending back to back messages using C2D sendAsync method
     public static final int MAX_COMMANDS_TO_SEND = 5; // maximum commands to be sent in a loop
     public static final List messageIdListStoredOnC2DSend = new ArrayList(); // store the message id list on sending C2D commands using service client
-    public static final List messageIdListStoredOnReceive = new ArrayList(); // store the message id list on receiving C2D commands using device client
+    public static final List messageIdListStoredOnReceive = new ArrayList(); // store the message id list on receiving C2D commands using identity client
 
     public static String IOT_HUB_CONNECTION_STRING_ENV_VAR_NAME = "IOTHUB_CONNECTION_STRING";
     public static String iotHubConnectionString = "";
@@ -88,8 +88,8 @@ public class ReceiveMessagesCommon extends MethodNameLoggingIntegrationTest
         registryManager = RegistryManager.createFromConnectionString(iotHubConnectionString);
         String uuid = UUID.randomUUID().toString();
 
-        String deviceId = "java-device-client-e2e-test-receive-messages".concat("-" + uuid);
-        String deviceIdX509 = "java-device-client-e2e-test-receive-messages-x509".concat("-" + uuid);
+        String deviceId = "java-identity-client-e2e-test-receive-messages".concat("-" + uuid);
+        String deviceIdX509 = "java-identity-client-e2e-test-receive-messages-x509".concat("-" + uuid);
         String moduleId = "java-module-client-e2e-test-send-messages".concat("-" + uuid);
         String moduleIdX509 = "java-module-client-e2e-test-send-messages-X509".concat("-" + uuid);
 
@@ -205,7 +205,7 @@ public class ReceiveMessagesCommon extends MethodNameLoggingIntegrationTest
     {
         if (registryManager != null)
         {
-            Tools.removeDevicesAndModules(registryManager, deviceIdsToDispose, moduleIdsToDispose);
+            Tools.removeDevicesAndModules(registryManager, null);
             registryManager.close();
             registryManager = null;
         }

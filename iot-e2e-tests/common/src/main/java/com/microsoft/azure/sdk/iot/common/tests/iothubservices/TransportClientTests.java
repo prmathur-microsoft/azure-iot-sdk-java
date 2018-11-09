@@ -119,7 +119,7 @@ public class TransportClientTests extends MethodNameLoggingIntegrationTest
 
         for (int i = 0; i < MAX_DEVICE_MULTIPLEX; i++)
         {
-            String deviceId = "java-device-client-e2e-test-multiplexing".concat(i + "-" + uuid);
+            String deviceId = "java-identity-client-e2e-test-multiplexing".concat(i + "-" + uuid);
 
             deviceListAmqps[i] = Device.createFromId(deviceId, null, null);
             registryManager.addDevice(deviceListAmqps[i]);
@@ -705,7 +705,7 @@ public class TransportClientTests extends MethodNameLoggingIntegrationTest
             // verify if they are received by SC
             Thread.sleep(MAXIMUM_TIME_FOR_IOTHUB_PROPAGATION_BETWEEN_DEVICE_SERVICE_CLIENTS);
             int actualReportedPropFound = readReportedProperties(devicesUnderTest.get(i), PROPERTY_KEY, PROPERTY_VALUE_UPDATE);
-            assertEquals("Missing reported properties on the " + (i+1) + " device out of " + MAX_DEVICE_MULTIPLEX, MAX_PROPERTIES_TO_TEST.intValue(), actualReportedPropFound);
+            assertEquals("Missing reported properties on the " + (i+1) + " identity out of " + MAX_DEVICE_MULTIPLEX, MAX_PROPERTIES_TO_TEST.intValue(), actualReportedPropFound);
         }
 
         // send max_prop RP one at a time in parallel
@@ -939,7 +939,7 @@ public class TransportClientTests extends MethodNameLoggingIntegrationTest
     {
         public void execute(IotHubStatusCode status, Object context)
         {
-            System.out.println("Device Client: IoT Hub responded to device method operation with status " + status.name());
+            System.out.println("Device Client: IoT Hub responded to identity method operation with status " + status.name());
         }
     }
 

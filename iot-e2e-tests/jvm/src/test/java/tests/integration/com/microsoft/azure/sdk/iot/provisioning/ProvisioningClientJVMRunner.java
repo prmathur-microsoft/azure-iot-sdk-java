@@ -82,9 +82,9 @@ public class ProvisioningClientJVMRunner
     private static final Integer IOTHUB_RETRY_MILLISECONDS = 100;
 
     private static final String REGISTRATION_ID_TPM_PREFIX = "java-tpm-registration-id-";
-    private static final String DEVICE_ID_TPM_PREFIX = "java-tpm-device-id-";
+    private static final String DEVICE_ID_TPM_PREFIX = "java-tpm-identity-id-";
     private static final String REGISTRATION_ID_X509_PREFIX = "java-x509-registration-id-";
-    private static final String DEVICE_ID_X509_PREFIX = "java-x509-device-id-%s";
+    private static final String DEVICE_ID_X509_PREFIX = "java-x509-identity-id-%s";
 
     private ProvisioningDeviceClient provisioningDeviceClient = null;
     private ProvisioningServiceClient provisioningServiceClient = null;
@@ -271,8 +271,8 @@ public class ProvisioningClientJVMRunner
         assertNotNull(individualEnrollmentResult.getEtag()); //
         assertNotNull(individualEnrollmentResult.getCreatedDateTimeUtc()); //
         assertNotNull(individualEnrollmentResult.getLastUpdatedDateTimeUtc()); //
-        assertNotNull(individualEnrollmentResult.getDeviceId()); // expected device ID
-        assertEquals(deviceId, individualEnrollmentResult.getDeviceId()); // expected device ID
+        assertNotNull(individualEnrollmentResult.getDeviceId()); // expected identity ID
+        assertEquals(deviceId, individualEnrollmentResult.getDeviceId()); // expected identity ID
         if (twinState == null)
         {
             assertNull(individualEnrollmentResult.getInitialTwin()); // expected null
@@ -309,8 +309,8 @@ public class ProvisioningClientJVMRunner
         assertNotNull(individualEnrollmentResult.getEtag()); //
         assertNotNull(individualEnrollmentResult.getCreatedDateTimeUtc()); //
         assertNotNull(individualEnrollmentResult.getLastUpdatedDateTimeUtc()); //
-        assertNotNull(individualEnrollmentResult.getDeviceId()); // expected device ID
-        assertEquals(deviceId, individualEnrollmentResult.getDeviceId()); // expected device ID
+        assertNotNull(individualEnrollmentResult.getDeviceId()); // expected identity ID
+        assertEquals(deviceId, individualEnrollmentResult.getDeviceId()); // expected identity ID
         if (twinState == null)
         {
             assertNull(individualEnrollmentResult.getInitialTwin()); // expected null
@@ -394,7 +394,7 @@ public class ProvisioningClientJVMRunner
         assertEquals(TEST_VALUE_TAG, individualEnrollmentResult.getInitialTwin().getTags().get(TEST_KEY_TAG));
         assertEquals(TEST_VALUE_DP, individualEnrollmentResult.getInitialTwin().getDesiredProperty().get(TEST_KEY_DP));
 
-        // Register device
+        // Register identity
         ProvisioningStatus provisioningStatus = registerDevice(testInstance.protocol, securityProviderTPMEmulator, provisioningServiceGlobalEndpoint);
         waitForRegistrationCallback(provisioningStatus);
         provisioningStatus.provisioningDeviceClient.closeNow();
@@ -433,7 +433,7 @@ public class ProvisioningClientJVMRunner
         Collection<String> signerCertificates = new LinkedList<>();
         SecurityProvider securityProviderX509 = new SecurityProviderX509Cert(leafPublicPem, leafPrivateKey, signerCertificates);
 
-        // Create a device with Zero Root, Zero Intermediate and 1 leaf
+        // Create a identity with Zero Root, Zero Intermediate and 1 leaf
         String deviceID = String.format(DEVICE_ID_X509_PREFIX, "R0-I0-L1") + UUID.randomUUID().toString();
 
         // setup service client with a unique registration id
@@ -457,7 +457,7 @@ public class ProvisioningClientJVMRunner
         assertEquals(TEST_VALUE_TAG, individualEnrollmentResult.getInitialTwin().getTags().get(TEST_KEY_TAG));
         assertEquals(TEST_VALUE_DP, individualEnrollmentResult.getInitialTwin().getDesiredProperty().get(TEST_KEY_DP));
 
-        // Register device
+        // Register identity
         ProvisioningStatus provisioningStatus = registerDevice(testInstance.protocol, securityProviderX509, provisioningServiceGlobalEndpoint);
         waitForRegistrationCallback(provisioningStatus);
         provisioningStatus.provisioningDeviceClient.closeNow();
@@ -502,7 +502,7 @@ public class ProvisioningClientJVMRunner
         Collection<String> signerCertificates = new LinkedList<>();
         SecurityProvider securityProviderX509 = new SecurityProviderX509Cert(leafPublicPem, leafPrivateKey, signerCertificates);
 
-        // Create a device with Zero Root, Zero Intermediate and 1 leaf
+        // Create a identity with Zero Root, Zero Intermediate and 1 leaf
         String deviceID = String.format(DEVICE_ID_X509_PREFIX, "R0-I0-L1") + UUID.randomUUID().toString();
 
         // setup service client with a unique registration id
@@ -526,7 +526,7 @@ public class ProvisioningClientJVMRunner
         assertEquals(TEST_VALUE_TAG, individualEnrollmentResult.getInitialTwin().getTags().get(TEST_KEY_TAG));
         assertEquals(TEST_VALUE_DP, individualEnrollmentResult.getInitialTwin().getDesiredProperty().get(TEST_KEY_DP));
 
-        // Register device
+        // Register identity
         try
         {
             ProvisioningStatus provisioningStatus = registerDevice(testInstance.protocol, securityProviderX509, provisioningServiceGlobalEndpointWithInvalidCert);
