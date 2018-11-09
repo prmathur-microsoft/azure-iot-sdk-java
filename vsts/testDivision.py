@@ -40,9 +40,9 @@ for dirName, subdirList, fileList in os.walk(rootDir):
 					#parse just the <filename>.java and save for later
 					file = open(content[i])
 					fileName = os.path.basename(file.name)
-					if 'ErrorInjection' in fileName:
+					if 'ErrInj' in fileName:
 						errorInjectionTests.append(fileName)
-					elif 'IT' in fileName:
+					elif 'JVMRunner' in fileName:
 						integrationTests.append(fileName)
 					else:
 						unitTests.append(fileName)

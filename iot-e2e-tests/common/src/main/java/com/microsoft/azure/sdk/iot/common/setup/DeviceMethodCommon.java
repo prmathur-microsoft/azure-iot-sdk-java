@@ -204,7 +204,7 @@ public class DeviceMethodCommon extends MethodNameLoggingIntegrationTest
 
     public static BaseDevice[] getIdentities(Collection inputs)
     {
-        BaseDevice[] identities = new 
+        BaseDevice[] identities = new
     }
 
     @BeforeClass
